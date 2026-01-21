@@ -1,0 +1,57 @@
+<!--pages/guanning/guanning.wxml-->
+<view class="container">
+  <!-- 初始四个按钮 -->
+  <view class="button-container" wx:if="{{!showSecondaryButtons}}">
+    <button
+      wx:for="{{mainButtons}}"
+      wx:key="id"
+      class="main-button {{item.clicked ? 'clicked' : ''}}"
+      bindtap="onMainButtonTap"
+      data-id="{{item.id}}"
+    >
+      {{item.text}}
+    </button>
+  </view>
+
+  <!-- 第二次点击后显示的三个按钮 -->
+  <view class="secondary-container" wx:if="{{showSecondaryButtons}}">
+    <view class="secondary-buttons">
+      <button
+        wx:for="{{secondaryButtons}}"
+        wx:key="id"
+        class="secondary-button"
+        bindtap="onSecondaryButtonTap"
+        data-id="{{item.id}}"
+      >
+        {{item.text}}
+      </button>
+    </view>
+
+    <!-- 技能选择区域 -->
+    <view class="skill-selection" wx:if="{{showSkills}}">
+      <text class="skill-title">选择技能：</text>
+      <view class="skill-buttons">
+        <button
+          wx:for="{{skillButtons}}"
+          wx:key="id"
+          class="skill-button"
+          bindtap="onSkillButtonTap"
+          data-skill="{{item.skill}}"
+        >
+          {{item.skill.name}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 删除确认对话框 -->
+  <view class="delete-confirm" wx:if="{{showDeleteConfirm}}">
+    <view class="confirm-dialog">
+      <text>确定要删除变色的按钮吗？</text>
+      <view class="confirm-buttons">
+        <button class="cancel-btn" bindtap="onCancelDelete">取消</button>
+        <button class="confirm-btn" bindtap="onConfirmDelete">确定</button>
+      </view>
+    </view>
+  </view>
+</view>

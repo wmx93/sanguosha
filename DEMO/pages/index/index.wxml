@@ -1,0 +1,30 @@
+<!--index.wxml-->
+<navigation-bar title="技能抽取" back="{{true}}" color="black" background="#FFF"></navigation-bar>
+<button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回" style="position: fixed; left: 29rpx; top: 88rpx">
+  <text class="back-icon">‹</text>
+</button>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <!-- 背景图片层 -->
+  <view class="background-layer" wx:if="{{backgroundImage}}">
+    <image class="background-image" src="{{backgroundImage}}" mode="aspectFill"></image>
+    <view class="background-overlay"></view>
+  </view>
+  <view class="container">
+    <view class="title">关宁</view>
+    
+    <view class="button-container">
+      <button class="draw-btn" bindtap="drawSkill">抽取技能</button>
+    </view>
+
+    <view class="result-container" wx:if="{{showResult && currentSkill}}">
+      <view class="skill-card">
+        <view class="skill-name">{{currentSkill.name}}</view>
+        <view class="skill-description">{{currentSkill.description || '暂无描述'}}</view>
+      </view>
+    </view>
+
+    <view class="hint" wx:if="{{!showResult}}">
+      <text>点击"抽取技能"按钮开始抽取</text>
+    </view>
+  </view>
+</scroll-view>
