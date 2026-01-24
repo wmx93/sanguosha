@@ -1,0 +1,56 @@
+.page {
+  min-height: 100vh;
+  padding: 32rpx;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.header {
+  padding: 24rpx 8rpx 32rpx;
+  color: #fff;
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: 800;
+  letter-spacing: 1rpx;
+}
+
+.subtitle {
+  margin-top: 12rpx;
+  opacity: 0.9;
+  font-size: 26rpx;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24rpx;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 24rpx;
+  padding: 28rpx;
+  box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.18);
+}
+
+.card:active {
+  transform: scale(0.99);
+  opacity: 0.95;
+}
+
+.card-title {
+  font-size: 34rpx;
+  font-weight: 800;
+  color: #4a4a4a;
+}
+
+.card-desc {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+
