@@ -24,7 +24,7 @@ Page({
    */
   loadSkills() {
     // 从关宁分区获取技能
-    const skills = skillsData.getSkillsByPage('guanning')
+    const skills = skillsData.getSkillsByPage('guangning')
     this.setData({
       skills: skills,
       skillsCount: skills.length
