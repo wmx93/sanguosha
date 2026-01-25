@@ -66,67 +66,23 @@ Page({
 
   /**
    * 从云存储下载背景图片
-   * @param {String} fileID - 云存储文件ID，例如：'cloud://your-env.xxx/background.jpg'
    */
-  loadBackgroundImage(fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/guanning(shu).png') {
-    // 如果没有传入 fileID，可以从本地存储读取之前保存的 fileID
-    if (!fileID) {
-      try {
-        const savedFileID = wx.getStorageSync('background_image_fileid')
-        if (savedFileID) {
-          fileID = savedFileID
-        } else {
-          // 如果没有保存的 fileID，使用默认值（需要替换为你的实际文件ID）
-          fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/guanning(shu).png'
-          console.log('请设置背景图片的云存储文件ID')
-          return
-        }
-      } catch (error) {
-        console.error('读取背景图片ID失败:', error)
-        return
-      }
-    }
-
-    // 检查是否支持云开发
+  loadBackgroundImage() {
     if (!wx.cloud) {
-      console.error('当前版本不支持云开发')
-      wx.showToast({
-        title: '不支持云开发',
-        icon: 'none'
-      })
       return
     }
 
-    this.setData({
-      loadingBackground: true
-    })
+    const fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/guanning(shu).png'
 
-    // 从云存储下载文件
     wx.cloud.downloadFile({
       fileID: fileID,
       success: (res) => {
-        // 下载成功，获取临时文件路径
-        const tempFilePath = res.tempFilePath
         this.setData({
-          backgroundImage: tempFilePath,
-          loadingBackground: false
+          backgroundImage: res.tempFilePath
         })
-        // 保存 fileID 到本地存储，下次直接使用
-        try {
-          wx.setStorageSync('background_image_fileid', fileID)
-        } catch (error) {
-          console.error('保存背景图片ID失败:', error)
-        }
       },
       fail: (err) => {
         console.error('下载背景图片失败:', err)
-        this.setData({
-          loadingBackground: false
-        })
-        wx.showToast({
-          title: '加载背景失败',
-          icon: 'none'
-        })
       }
     })
   },

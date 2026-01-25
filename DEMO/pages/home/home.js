@@ -15,6 +15,15 @@ Page({
     wx.navigateTo({
       url: '/pages/guanning/guanning'
     })
+  },
+
+  /**
+   * 跳转到管宁（上线版）
+   */
+  goGuanNingOnline() {
+    wx.navigateTo({
+      url: '/pages/guanning_online/guanning_online'
+    })
   }
 })
 

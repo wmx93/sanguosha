@@ -2,7 +2,8 @@
   "pages": [
     "pages/home/home",
     "pages/index/index",
-    "pages/guanning/guanning"
+    "pages/guanning/guanning",
+    "pages/guanning_online/guanning_online"
   ],
   "window": {
     "navigationBarTextStyle": "black",

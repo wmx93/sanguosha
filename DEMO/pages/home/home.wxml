@@ -12,7 +12,11 @@
       <view class="card-desc">随机抽取一个技能</view>
     </view>
     <view class="card" bindtap="goGuanNing">
-      <view class="card-title">管宁</view>
+      <view class="card-title">管宁（平均概率）</view>
+      <view class="card-desc">卡牌技能选择</view>
+    </view>
+    <view class="card" bindtap="goGuanNingOnline">
+      <view class="card-title">管宁（上线版）</view>
       <view class="card-desc">卡牌技能选择</view>
     </view>
   </view>

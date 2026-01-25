@@ -1,11 +1,53 @@
-// pages/guanning/guanning.js
+// pages/guanning_online/guanning_online.js
+// 独立逻辑：与平均概率版保持 UI 一致，但抽取概率不同
 const skillsData = require('../../utils/skillsData.js')
 
-Page({
+/**
+ * 按指定权重随机选取技能
+ */
+function createWeightedPicker() {
+  // 定义各档技能
+  const tier2 = ['礼赂', '同礼', '集智', '智迟'] // 2%
+  const tier3 = ['仁政', '崇义'] // 3%
+  const tier50 = [
+    '豪义', '礼让', '礼下', '仁心', '义从', '举义',
+    '义舍', '遗礼', '智愚', '遣信', '仁德', '天义'
+  ] // 50%
+
+  const allSkills = skillsData.getSkillsByPage('guanning') || []
+  const other = allSkills
+    .map(s => s.name)
+    .filter(name => !tier2.includes(name) && !tier3.includes(name) && !tier50.includes(name))
+
+  // 概率段
+  const pickGroup = () => {
+    const r = Math.random() * 100 // 0-100
+    if (r < 2) return tier2
+    if (r < 5) return tier3 // 2~5 ==> 3%
+    if (r < 55) return tier50 // 5~55 ==> 50%
+    return other // 剩余 45%
+  }
+
   /**
-   * 页面的初始数据
+   * 从权重规则中抽一个未出现的技能
    */
+  return function (exclude = []) {
+    const group = pickGroup()
+    // 处理空组
+    const pool = group.filter(n => !exclude.includes(n))
+    if (pool.length === 0) {
+      // 若该组可用技能为空，则随机从全库找未选的
+      const fallback = allSkills.map(s => s.name).filter(n => !exclude.includes(n))
+      if (fallback.length === 0) return null
+      return fallback[Math.floor(Math.random() * fallback.length)]
+    }
+    return pool[Math.floor(Math.random() * pool.length)]
+  }
+}
+
+Page({
   data: {
+    // 与原页面相同的数据结构
     mainButtons: [
       { id: 'sha', text: '杀', clicked: false, clickCount: 0 },
       { id: 'shan', text: '闪', clicked: false, clickCount: 0 },
@@ -27,44 +69,54 @@ Page({
     option2Count: 0
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad() {
-    this.initializeSkills() // 保持原有逻辑
+    this.initializeSkills()
     setTimeout(() => this.loadBackgroundImage(), 200)
   },
 
-  /**
-   * 初始随机 3 个技能
-   */
+  /** 首次随机 3 个技能 */
   initializeSkills() {
-    const all = skillsData.getSkillsByPage('guanning') || []
-    const selected = this.shuffle(all).slice(0, Math.min(3, all.length))
+    const selected = this.weightedPickUnique(3)
     this.setData({
       skillButtons: selected.map((s, i) => ({ id: `skill_${i}`, skill: s }))
     })
   },
 
-  /**
-   * 工具：打乱数组
-   */
-  shuffle(arr) {
-    return arr.slice().sort(() => 0.5 - Math.random())
+  /** 工具：按权重抽取 count 个不重复技能对象 */
+  weightedPickUnique(count) {
+    const picker = createWeightedPicker()
+    const resultNames = []
+    const result = []
+    const allMap = new Map(
+      (skillsData.getSkillsByPage('guanning') || []).map(s => [s.name, s])
+    )
+    while (result.length < count) {
+      const name = picker(resultNames)
+      if (!name) break
+      const skillObj = allMap.get(name)
+      if (skillObj) {
+        result.push(skillObj)
+        resultNames.push(name)
+      } else {
+        break
+      }
+    }
+    return result
   },
 
-  /**
-   * 刷新 4 个候选技能（点击新按钮时）
-   */
+  /** 刷新 4 个候选技能 */
   refreshSkillCandidates() {
-    const lib = skillsData.getSkillsByPage('guanning') || []
-    const picked = this.shuffle(lib).slice(0, Math.min(4, lib.length))
+    const picked = this.weightedPickUnique(4)
     this.setData({
       skillButtons: picked.map((s, i) => ({ id: `skill_cand_${Date.now()}_${i}`, skill: s }))
     })
   },
 
-  /** 主要按钮点击 */
+  shuffle(arr) {
+    return arr.slice().sort(() => 0.5 - Math.random())
+  },
+
+  /* 以下交互逻辑基本与平均概率版保持一致 */
   onMainButtonTap(e) {
     const buttonId = e.currentTarget.dataset.id
     const mainButtons = this.data.mainButtons
@@ -89,14 +141,12 @@ Page({
     }
   },
 
-  /** 新按钮点击 */
   onSecondaryButtonTap(e) {
     const buttonId = e.currentTarget.dataset.id
     if (buttonId === 'skill') {
-      // 每次打开重新抽 4 项
       this.refreshSkillCandidates()
       this.setData({ showSkills: true })
-      return // 不计入点击，等实际选技能后
+      return
     }
     if (buttonId === 'delete') {
       this.onConfirmDelete()
@@ -106,7 +156,6 @@ Page({
     }
   },
 
-  /** 技能按钮点击 */
   onSkillButtonTap(e) {
     const skill = e.currentTarget.dataset.skill
     const { acquiredSkills } = this.data
@@ -123,7 +172,6 @@ Page({
     wx.showModal({ title: '技能详情', content: `${skill.name}: ${skill.description}`, showCancel: false })
   },
 
-  /** 记录新按钮点击 */
   recordSecondaryClick(btnId) {
     const arr = this.data.clickedSecondaryButtons
     if (!arr.includes(btnId)) arr.push(btnId)
@@ -135,7 +183,6 @@ Page({
     }
   },
 
-  /** 删除 */
   onConfirmDelete() {
     const { currentClickedButtonId, mainButtons } = this.data
     const filtered = mainButtons.filter(b => b.id !== currentClickedButtonId)
@@ -144,7 +191,6 @@ Page({
     this.setData({ mainButtons: filtered, option2Count: newCount, secondaryButtons })
   },
 
-  /** 背景图 */
   loadBackgroundImage() {
     if (!wx.cloud) return
     const fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/guanning(wei).png'

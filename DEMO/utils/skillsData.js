@@ -3,7 +3,7 @@
 
 // 默认技能数据（按页面分区）
 const DEFAULT_SKILLS = {
-  // 关宁页面专用技能区（原通用技能区的技能）
+  // 管宁（群）技能列表
   guanning: [
     { name: '义绝', description: '出牌阶段限1次，你弃置1张牌并选择1名其他角色，该角色展示1张手牌。若展示牌为黑色:\n1.该角色本回合非锁定技失效、不能使用或打出手牌\n2.你对其使用的红桃[杀]伤害+1;若展示牌为红色:你获得展示牌，然后你可令该角色回复1点体力。' },
     { name: '驱虎', description: '出牌阶段限一次，你可以与一名体力值大于你的角色拼点:若你赢，其对其攻击范围内你选择的一名角色造成1点伤害;若你没赢，其对你造成1点伤害' },
@@ -118,164 +118,73 @@ const DEFAULT_SKILLS = {
     { name: '武威', description: '出牌阶段限一次，你可将一种颜色的所有手牌当[杀]使用(无次数距离限制)，其中每有一种牌类型你可选择一项执行一次:1.摸一张牌;2.目标角色本回合非锁定技能失效;3.此技能本回合可发动次数+1。若此[杀]执行了所有选项，则伤害+1。' },
     { name: '武缘', description: '出牌阶段限一次，你可以将一张[杀]交给一名其他角色，然后你回复1点体力并与其各摸一张牌;若此[杀]为:红色，其回复1点体力;属性[杀]，其多摸一张牌。' },
     { name: '骄豪', description: '出牌阶段限一次，你可以与装备区牌数小于等于你的角色拼点，然后你可以令拼点赢的角色获得拼点的牌或者令其使用一张[杀]。' }
+  ],
+  
+  // 管宁（群）技能占位区，后续补充内容
+  'guanning(qun)': [
+    { name: '同礼', description: '出牌阶段，当你使用牌指定目标后，若你手牌中的花色数等于你此阶段已使用牌的张数，你可令此牌效果额外执行X次(X为你手牌中的花色数)。' },
+    { name: '仁德', description: '出牌阶段，你可将任意张手牌交给一名其他角色(每人限一次)。\n当以此法给出第2张牌时，可视为使用1张基本牌。' },
+    { name: '天义', description: '出牌阶段限一次，你可以与一名角色拼点。若你赢，直到回合结束，你能额外使用一张[杀]且使用[杀]无距离限制且使用[杀]选择目标的个数上限+1若你没赢，你不能使用[杀]，直到回合结束' }
   ]
 }
 
-// 存储键名
 const STORAGE_KEY = 'skills_data'
 const STORAGE_VERSION_KEY = 'skills_data_version'
-const CURRENT_VERSION = '2.1.0' // 数据版本号，用于数据迁移（将common分区改为guanning分区）
+const CURRENT_VERSION = '2.3.0' // 数据版本号，用于数据迁移
 
-/**
- * 获取技能数据
- * 优先从本地存储读取，如果没有则使用默认数据并保存
- */
-function getSkillsData() {
+// 覆盖管宁技能列表为正确的三个技能
+DEFAULT_SKILLS.guanning = [
+  { name: '蛮智', description: '准备阶段，你可以选择一名其他角色，然后选择一项\n1、令其交给你两张牌，然后其视为使用一张无距离限制的[杀】;\n2、获得其区城内的至多两张牌，然后交给其等量的牌并摸一张牌。结束阶段，若你的体力值与本回合的准备阶段时相等你可以选择执行本回合未被选择的一项。' },
+  { name: '神智', description: '准备阶段，若你手牌数大于体力值，你可以弃置一张手牌并回复一点体力。' },
+  { name: '尚义', description: '出牌阶段限一次，你可以令一名其他角色观看你的手牌。若如此做，你观看其手牌并可以弃置其中的一张黑桃和一张梅花牌。' },
+  { name: '豪义', description: '结束阶段，你可获得本回合未造成伤害且进入弃牌堆的伤害牌，并可分配给任意其他角色。' },
+  { name: '礼让', description: '当你的牌因弃置而置入弃牌堆时，你可以将其中的任意张牌交给其他角色。' },
+  { name: '仁心', description: '每当体力值为1的一名其他角色受到伤害时，你可以翻面并弃置一张装备牌。若如此做，防止此伤害' },
+  { name: '仁政', description: '锁定技，当有伤害被减少或防止后，你摸两张牌。' },
+  { name: '义从', description: '锁定技，你计算与其他角色的距离-1;若你损失的体力值大于等于2，其他角色计算与你的距离+1。' },
+  { name: '义襄', description: '锁定技，其他角色的出牌阶段内，其使用的第一张牌对你伤害-1;其使用的第二张牌若为黑色，则对你无效。' },
+  { name: '义绝', description: '出牌阶段限1次，你弃置1张牌并选择1名其他角色，该角色展示1张手牌。若展示牌为黑色:\n1.该角色本回合非锁定技失效、不能使用或打出手牌\n2.你对其使用的红桃[杀]伤害+1;若展示牌为红色:你获得展示牌，然后你可令该角色回复1点体力。' },
+  { name: '举义', description: '觉醒技，准备阶段开始时，若你已受伤且体力上限大于存活角色数，你须将手牌摸至体力上限，然后获得技能【崩坏】和【威重】' },
+  { name: '义舍', description: '结束阶段，若你的武将牌上没有牌，你可以摸两张牌然后将两张牌置于武将牌上，称为"米”;当你最后的“米”移至其他区域后，你回复1点体力' },
+  { name: '崇义', description: '一名角色出牌阶段内使用的第一张牌若为【杀】，你可令其摸两张牌且此阶段使用【杀】次数+1;一名角色出牌阶段结束时，若其此阶段使用的最后一张牌为【杀】，你可获得弃牌堆中的此【杀】并令其本回合手牌上限+1。' },
+  { name: '礼赂', description: '摸牌阶段，你可以放弃摸牌，改为将手牌摸至体力上限(最多摸至5张)，然后交给一名其他角色至少1张手牌。\n若你此次交出的牌数大于你上一次以此法交出的牌数你增加1点体力上限并回复1点体力。' },
+  { name: '礼下', description: '锁定技，其他角色的结束阶段，若你不在其攻击范围内，则你选择一项:1.摸一张牌;2.令其摸两张牌。选择完成后，其他角色计算与你的距离-1。' },
+  { name: '遗礼', description: '出牌阶段开始时，你可以失去1点体力或移去一个“橘”令一名其他角色获得一个"橘"' },
+  { name: '集智', description: '使用锦囊牌时，你可以摸1张牌。若摸的牌是基本牌且在你的回合内，你可以弃置此牌令本回合手牌上限+1。' },
+  { name: '智迟', description: '锁定技，每当你于回合外受到伤害后，【杀】或非延时类锦囊牌于当前回合内对你无效' },
+  { name: '智愚', description: '当你受到伤害后，你可以摸一张牌，然后展示所有手牌且伤害来源弃置一张手牌。若所有手牌颜色均相同你获得弃置的牌且下回合奇策发动次数+1。' },
+  { name: '遣信', description: '出牌阶段限一次，若牌堆中没有"信”，你可以选择一名角色并将任意张手牌放置于牌堆中X倍数的位置(X为存活人数)，称为"信”。该角色的弃牌阶段开始时，若其手中有本回合获得的"信”，其选择一项:\n1.令你将手牌摸至4张;\n2.本回合手牌上限-2。' },
+  { name: '同礼', description: '出牌阶段，当你使用牌指定目标后，若你手牌中的花色数等于你此阶段已使用牌的张数，你可令此牌效果额外执行X次(X为你手牌中的花色数)。' },
+  { name: '仁德', description: '出牌阶段，你可将任意张手牌交给一名其他角色(每人限一次)。\n当以此法给出第2张牌时，可视为使用1张基本牌。' },
+  { name: '天义', description: '出牌阶段限一次，你可以与一名角色拼点。若你赢，直到回合结束，你能额外使用一张[杀]且使用[杀]无距离限制且使用[杀]选择目标的个数上限+1若你没赢，你不能使用[杀]，直到回合结束' }
+]
+
+
+// 获取指定页面的技能列表，优先读取本地存储，没有则回退到默认数据
+function getSkillsByPage(pageKey) {
+  if (!pageKey) return []
+
+  // 尝试从本地存储读取
+  let storedSkills = []
   try {
-    // 检查版本号
-    const storedVersion = wx.getStorageSync(STORAGE_VERSION_KEY)
-    const storedData = wx.getStorageSync(STORAGE_KEY)
-
-    // 如果版本不匹配或没有存储数据，使用默认数据并保存
-    if (!storedVersion || storedVersion !== CURRENT_VERSION ||
-        !storedData || typeof storedData !== 'object' || Object.keys(storedData).length === 0) {
-      saveSkillsData(DEFAULT_SKILLS)
-      return DEFAULT_SKILLS
+    const allSkills = wx ? (wx.getStorageSync && wx.getStorageSync(STORAGE_KEY)) : null
+    if (allSkills && typeof allSkills === 'object') {
+      storedSkills = allSkills[pageKey] || []
     }
-
-    return storedData
-  } catch (error) {
-    console.error('读取技能数据失败:', error)
-    // 出错时返回默认数据
-    return DEFAULT_SKILLS
+  } catch (err) {
+    // 读存储异常时忽略，回退到默认
+    console.error('读取技能数据失败', err)
   }
-}
 
-/**
- * 获取指定页面的技能数据
- * @param {string} pageName - 页面名称，如 'guanning', 'common'
- * @returns {Array} 该页面的技能数组
- */
-function getSkillsByPage(pageName) {
-  const allSkills = getSkillsData()
-  return allSkills[pageName] || []
-}
-
-/**
- * 保存技能数据到本地存储
- * @param {Object} skills - 技能对象（按页面分区）
- */
-function saveSkillsData(skills) {
-  try {
-    wx.setStorageSync(STORAGE_KEY, skills)
-    wx.setStorageSync(STORAGE_VERSION_KEY, CURRENT_VERSION)
-    return true
-  } catch (error) {
-    console.error('保存技能数据失败:', error)
-    // 如果存储空间不足，尝试清理
-    if (error.errMsg && error.errMsg.includes('exceed')) {
-      wx.showToast({
-        title: '存储空间不足',
-        icon: 'none'
-      })
-    }
-    return false
+  // 若本地无数据则回退到默认常量
+  if (!storedSkills || storedSkills.length === 0) {
+    storedSkills = DEFAULT_SKILLS[pageKey] || []
   }
-}
 
-/**
- * 添加新技能（默认添加到guanning分区）
- * @param {Object} skill - 技能对象 {name, description}
- * @param {string} pageName - 页面名称，默认为 'guanning'
- */
-function addSkill(skill, pageName = 'guanning') {
-  const skills = getSkillsData()
-  if (!skills[pageName]) {
-    skills[pageName] = []
-  }
-  skills[pageName].push(skill)
-  return saveSkillsData(skills)
-}
-
-/**
- * 批量添加技能
- * @param {Array} newSkills - 技能数组
- * @param {string} pageName - 页面名称，默认为 'guanning'
- */
-function addSkills(newSkills, pageName = 'guanning') {
-  const skills = getSkillsData()
-  if (!skills[pageName]) {
-    skills[pageName] = []
-  }
-  skills[pageName].push(...newSkills)
-  return saveSkillsData(skills)
-}
-
-/**
- * 更新技能
- * @param {Number} index - 技能索引
- * @param {Object} skill - 更新后的技能对象
- * @param {string} pageName - 页面名称，默认为 'guanning'
- */
-function updateSkill(index, skill, pageName = 'guanning') {
-  const skills = getSkillsData()
-  if (skills[pageName] && index >= 0 && index < skills[pageName].length) {
-    skills[pageName][index] = skill
-    return saveSkillsData(skills)
-  }
-  return false
-}
-
-/**
- * 删除技能
- * @param {Number} index - 技能索引
- * @param {string} pageName - 页面名称，默认为 'guanning'
- */
-function deleteSkill(index, pageName = 'guanning') {
-  const skills = getSkillsData()
-  if (skills[pageName] && index >= 0 && index < skills[pageName].length) {
-    skills[pageName].splice(index, 1)
-    return saveSkillsData(skills)
-  }
-  return false
-}
-
-/**
- * 重置为默认数据
- */
-function resetToDefault() {
-  return saveSkillsData(DEFAULT_SKILLS)
-}
-
-/**
- * 获取技能总数
- * @param {string} pageName - 页面名称，如果不指定则返回所有技能总数
- */
-function getSkillsCount(pageName) {
-  const skills = getSkillsData()
-  if (pageName) {
-    return skills[pageName] ? skills[pageName].length : 0
-  }
-  // 计算所有分区的技能总数
-  let total = 0
-  for (const page in skills) {
-    if (Array.isArray(skills[page])) {
-      total += skills[page].length
-    }
-  }
-  return total
+  return storedSkills
 }
 
 module.exports = {
-  getSkillsData,
-  getSkillsByPage,
-  saveSkillsData,
-  addSkill,
-  addSkills,
-  updateSkill,
-  deleteSkill,
-  resetToDefault,
-  getSkillsCount,
-  DEFAULT_SKILLS
+  getSkillsByPage
 }
 
