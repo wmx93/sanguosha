@@ -171,10 +171,14 @@
 .skill-buttons {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20rpx;
+  align-items: center;
 }
 
 .skill-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 50px;
   border-radius: 8px;
   border: 1px solid #007aff;
