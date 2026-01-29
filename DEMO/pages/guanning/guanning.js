@@ -144,16 +144,36 @@ Page({
     this.setData({ mainButtons: filtered, option2Count: newCount, secondaryButtons })
   },
 
-  /** 背景图 */
+  /** 增强版背景图加载函数 */
   loadBackgroundImage() {
-    if (!wx.cloud) return
+    // 1. 检查云能力是否可用
+    if (!wx.cloud) {
+      console.error('当前微信版本不支持云开发能力，请更新微信客户端')
+      return
+    }
+
     const fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/guanning(wei).png'
+
     wx.cloud.downloadFile({
-      fileID,
-      success: res => this.setData({ backgroundImage: res.tempFilePath }),
-      fail: err => console.error('背景图下载失败', err)
+      fileID: fileID,
+      success: res => {
+        if (res.tempFilePath) {
+          this.setData({ backgroundImage: res.tempFilePath })
+          console.log('背景图下载成功', res.tempFilePath)
+        } else {
+          console.error('下载成功但返回的临时文件路径为空', res)
+        }
+      },
+      fail: err => {
+        console.error('背景图下载失败', err)
+        // 常见错误码提示
+        if (err.errCode === -403003) {
+          console.error('错误原因：云存储返回了空的下载链接，请检查fileID是否正确、文件是否存在且有权限')
+        } else if (err.errCode === -1) {
+          console.error('错误原因：网络请求失败，请检查网络连接')
+        }
+      }
     })
   },
-
   goBack() { wx.navigateBack({ delta: 1 }) }
-})
+}) 
