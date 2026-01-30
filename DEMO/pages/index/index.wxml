@@ -1,5 +1,4 @@
 <!--index.wxml-->
-<navigation-bar title="技能抽取" back="{{true}}" color="black" background="#FFF"></navigation-bar>
 <button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回" style="position: fixed; left: 29rpx; top: 88rpx">
   <text class="back-icon">‹</text>
 </button>

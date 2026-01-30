@@ -9,17 +9,19 @@
   <view class="grid">
     <view class="card" bindtap="goSkillDraw">
       <view class="card-title">关宁</view>
-      <view class="card-desc">随机抽取一个技能</view>
+      <view class="card-desc">随机获得一个技能</view>
     </view>
     <view class="card" bindtap="goGuanNing">
       <view class="card-title">管宁（平均概率）</view>
-      <view class="card-desc">卡牌技能选择</view>
+      <view class="card-desc">跟我的礼赂同礼说去吧</view>
     </view>
     <view class="card" bindtap="goGuanNingOnline">
       <view class="card-title">管宁（上线版）</view>
-      <view class="card-desc">卡牌技能选择</view>
+      <view class="card-desc">原汁原味</view>
+    </view>
+    <view class="card" bindtap="goXvshao">
+      <view class="card-title">许劭</view>
+      <view class="card-desc">随机获得一个技能</view>
     </view>
   </view>
 </view>
-
-

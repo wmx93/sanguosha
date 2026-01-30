@@ -1,0 +1,39 @@
+<!-- pages/xvshao/xvshao.wxml -->
+<button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回" style="position: fixed; left: 24rpx; top: 85rpx">
+  <text class="back-icon">‹</text>
+</button>
+<view class="container">
+  <view class="background-layer" wx:if="{{backgroundImage}}">
+    <image class="background-image" src="{{backgroundImage}}" mode="aspectFill"></image>
+    <view class="background-overlay"></view>
+  </view>
+
+  <view class="secondary-container">
+    <view class="secondary-buttons">
+      <button
+        wx:for="{{phaseButtons}}"
+        wx:key="id"
+        class="secondary-button phase-button"
+        bindtap="onPhaseTap"
+        data-id="{{item.id}}"
+      >
+        {{item.text}}
+      </button>
+    </view>
+
+    <view class="skill-selection" wx:if="{{skillButtons.length}}">
+      <text class="skill-title">技能：</text>
+      <view class="skill-buttons">
+        <button
+          wx:for="{{skillButtons}}"
+          wx:key="id"
+          class="skill-button phase-button"
+          bindtap="onSkillTap"
+          data-skill="{{item.skill}}"
+        >
+          {{item.skill.name}}
+        </button>
+      </view>
+    </view>
+  </view>
+</view>
