@@ -3,6 +3,13 @@
   <text class="back-icon">‹</text>
 </button>
 <view class="container">
+  <!-- 预览小图背景（xvshao.png） -->
+  <view class="background-layer" wx:if="{{backgroundPreview}}">
+    <image class="background-image" src="{{backgroundPreview}}" mode="aspectFill"></image>
+    <view class="background-overlay"></view>
+  </view>
+
+  <!-- 大图背景（xvshao3.png），加载出来后覆盖在上面 -->
   <view class="background-layer" wx:if="{{backgroundImage}}">
     <image class="background-image" src="{{backgroundImage}}" mode="aspectFill"></image>
     <view class="background-overlay"></view>

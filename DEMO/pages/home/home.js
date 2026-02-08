@@ -14,5 +14,9 @@ Page({
   /** 跳转到许劭页面 */
   goXvshao() {
     wx.navigateTo({ url: '/pages/xvshao/xvshao' })
+  },
+  /** 跳转到典韦页面 */
+  goDianwei() {
+    wx.navigateTo({ url: '/pages/dianwei/dianwei' })
   }
 })

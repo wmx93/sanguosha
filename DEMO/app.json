@@ -4,7 +4,8 @@
     "pages/index/index",
     "pages/guanning/guanning",
     "pages/guanning_online/guanning_online",
-    "pages/xvshao/xvshao"
+    "pages/xvshao/xvshao",
+    "pages/dianwei/dianwei"
   ],
   "window": {
     "navigationBarTextStyle": "black",

@@ -1,0 +1,95 @@
+<!--pages/dianwei/dianwei.wxml-->
+<button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回" style="position: fixed; left: 24rpx; top: 85rpx">
+  <text class="back-icon">‹</text>
+</button>
+<view class="container">
+  <view class="background-layer" wx:if="{{backgroundImage}}">
+    <image class="background-image" src="{{backgroundImage}}" mode="aspectFill"></image>
+    <view class="background-overlay"></view>
+  </view>
+
+  <view class="content" style="position: relative; left: 0rpx; top: -79rpx; width: 580rpx; height: 1296rpx; display: block; box-sizing: border-box">
+    <!-- 武将选择区 (确认前显示) -->
+    <view class="section" wx:if="{{!isConfirmed}}">
+      <text class="section-title">请从下列武将中选择两个：</text>
+      <view class="general-section">
+        <view class="general-list">
+          <view 
+            wx:for="{{allGenerals}}" 
+            wx:key="general" 
+            class="general-item {{item.selected ? 'selected' : ''}}"
+            bindtap="onGeneralTap"
+            data-index="{{index}}"
+          >
+            <text class="general-name">{{item.general}}</text>
+          </view>
+        </view>
+      </view>
+      <button 
+        class="confirm-btn" 
+        type="primary" 
+        size="mini" 
+        bindtap="onConfirmSelection" 
+        disabled="{{selectedIndices.length !== 2}}"
+      >确认选择</button>
+
+      <!-- 当前查看武将技能展示 -->
+      <view class="preview-section" wx:if="{{previewSkills.length}}">
+        <text class="section-title">当前武将：{{previewGeneralName}}</text>
+        <view class="preview-skill-list">
+          <view class="preview-skill-item" wx:for="{{previewSkills}}" wx:key="{{item.name}}">
+            <text class="skill-text">{{item.name}}</text>
+            <text class="skill-desc">{{item.description}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 确认后显示的内容 -->
+    <view wx:else>
+      <!-- 选中的武将 -->
+      <view class="section">
+        <text class="section-title">已选武将：</text>
+        <view class="general-list">
+          <view class="general-item selected" wx:for="{{selectedGenerals}}" wx:key="general">
+            <text class="general-name">{{item.general}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 候选技能（点击获得） -->
+      <view class="section" wx:if="{{candidateSkills.length}}">
+        <text class="section-title">可获得的技能：</text>
+        <view class="skill-buttons">
+          <button
+            wx:for="{{candidateSkills}}"
+            wx:key="{{item.general}}-{{item.name}}"
+            class="skill-button"
+            bindtap="onSkillTap"
+            data-skill="{{item}}"
+          >
+            {{item.general}} - {{item.name}}
+          </button>
+        </view>
+      </view>
+
+      <!-- 已获得技能列表 -->
+      <view class="section" wx:if="{{acquiredSkills.length}}">
+        <text class="section-title">已获得技能：</text>
+        <view class="skill-buttons">
+          <view
+            wx:for="{{acquiredSkills}}"
+            wx:key="{{item.general}}-{{item.name}}"
+            class="skill-item"
+          >
+            <text class="skill-text">{{item.general}} · {{item.name}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="section">
+        <button class="reroll-btn" type="warn" size="mini" bindtap="onResetTap">重置选择</button>
+      </view>
+    </view>
+  </view>
+</view>

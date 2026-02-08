@@ -1,6 +1,4 @@
-<navigation-bar title="主页面" back="{{false}}" color="black" background="#FFF"></navigation-bar>
-
-<view class="page">
+<view class="page"  style="height: 1722rpx; display: block; box-sizing: border-box; position: relative; left: 0rpx; top: -28rpx">
   <view class="header">
     <view class="title">功能列表</view>
     <view class="subtitle">后续你给我更多分页面，我会把入口继续加在这里</view>
@@ -22,6 +20,10 @@
     <view class="card" bindtap="goXvshao">
       <view class="card-title">许劭</view>
       <view class="card-desc">随机获得一个技能</view>
+    </view>
+    <view class="card" bindtap="goDianwei">
+      <view class="card-title">神典韦</view>
+      <view class="card-desc">获得两只胳膊</view>
     </view>
   </view>
 </view>

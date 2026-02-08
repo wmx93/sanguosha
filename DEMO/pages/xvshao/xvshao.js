@@ -11,17 +11,30 @@ Page({
     ],
     currentPhase: 'playPhase',
     skillButtons: [],
-    backgroundImage: ''
+    backgroundImage: '', // 大图
+    backgroundPreview: '' // 预览小图
   },
   onLoad() {
+    this.loadPreviewBackground()
     this.loadBackgroundImage()
     this.initializeSkills()
   },
 
-  /** 下载背景 */
+  /** 下载预览背景（小图） */
+  loadPreviewBackground() {
+    if (!wx.cloud) return
+    const fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/xvshaos.jpg'
+    wx.cloud.downloadFile({
+      fileID,
+      success: res => this.setData({ backgroundPreview: res.tempFilePath }),
+      fail: err => console.error('许劭预览背景图下载失败', err)
+    })
+  },
+
+  /** 下载背景（大图） */
   loadBackgroundImage() {
     if (!wx.cloud) return
-    const fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/xvshao.png'
+    const fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/xvshao3.png'
     wx.cloud.downloadFile({
       fileID,
       success: res => this.setData({ backgroundImage: res.tempFilePath }),
