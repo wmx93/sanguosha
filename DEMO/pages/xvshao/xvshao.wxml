@@ -28,17 +28,34 @@
       </button>
     </view>
 
-    <view class="skill-selection" wx:if="{{skillButtons.length}}">
-      <text class="skill-title">技能：</text>
+    <!-- 候选技能：三选一获得 -->
+    <view class="skill-selection" wx:if="{{drawnSkills.length}}">
+      <text class="skill-title">选择一个技能：</text>
       <view class="skill-buttons">
         <button
-          wx:for="{{skillButtons}}"
-          wx:key="id"
+          wx:for="{{drawnSkills}}"
+          wx:key="name"
           class="skill-button phase-button"
-          bindtap="onSkillTap"
-          data-skill="{{item.skill}}"
+          bindtap="onDrawnSkillTap"
+          data-skill="{{item}}"
         >
-          {{item.skill.name}}
+          {{item.name}}
+        </button>
+      </view>
+    </view>
+
+    <!-- 已获得技能：点击查看描述 -->
+    <view class="skill-selection" wx:if="{{obtainedSkills.length}}">
+      <text class="skill-title">已获得技能（点击查看）：</text>
+      <view class="skill-buttons">
+        <button
+          wx:for="{{obtainedSkills}}"
+          wx:key="name"
+          class="skill-button phase-button"
+          bindtap="onObtainedSkillTap"
+          data-skill="{{item}}"
+        >
+          {{item.name}}
         </button>
       </view>
     </view>

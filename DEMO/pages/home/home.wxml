@@ -14,16 +14,20 @@
       <view class="card-desc">跟我的礼赂同礼说去吧</view>
     </view>
     <view class="card" bindtap="goGuanNingOnline">
-      <view class="card-title">管宁（上线版）</view>
+      <view class="card-title">管宁（线上版）</view>
       <view class="card-desc">原汁原味</view>
     </view>
     <view class="card" bindtap="goXvshao">
       <view class="card-title">许劭</view>
-      <view class="card-desc">随机获得一个技能</view>
+      <view class="card-desc">随机获得技能</view>
     </view>
     <view class="card" bindtap="goDianwei">
       <view class="card-title">神典韦</view>
       <view class="card-desc">获得两只胳膊</view>
+    </view>
+    <view class="card" bindtap="goZhaoxiang">
+      <view class="card-title">赵襄</view>
+      <view class="card-desc">芳魂、扶汉</view>
     </view>
   </view>
 </view>

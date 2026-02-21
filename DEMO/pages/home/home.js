@@ -18,5 +18,9 @@ Page({
   /** 跳转到典韦页面 */
   goDianwei() {
     wx.navigateTo({ url: '/pages/dianwei/dianwei' })
+  },
+  /** 跳转到赵襄页面 */
+  goZhaoxiang() {
+    wx.navigateTo({ url: '/pages/zhaoxiang/zhaoxiang' })
   }
 })

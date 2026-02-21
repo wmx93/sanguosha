@@ -10,7 +10,16 @@ Page({
       { id: 'damagedPhase', text: '受到伤害', active: false }
     ],
     currentPhase: 'playPhase',
-    skillButtons: [],
+
+    // 本次抽取出来的 3 个候选技能（供三选一）
+    drawnSkills: [],
+
+    // 本轮已获得的技能（用户从候选中选择 1 个获得，仅用于展示/查看描述）
+    obtainedSkills: [],
+
+    // 本局(页面生命周期内)已获得过的技能名，用于后续抽取去重
+    obtainedSkillNames: [],
+
     backgroundImage: '', // 大图
     backgroundPreview: '' // 预览小图
   },
@@ -42,18 +51,35 @@ Page({
     })
   },
 
-  /** 根据当前阶段刷新技能按钮 */
+  /** 根据当前阶段抽取 3 个候选技能（供三选一），并清空本轮已获得技能 */
   initializeSkills() {
     const all = skillsData.getSkillsByPage('xvshao') || {}
     const pool = all[this.data.currentPhase] || []
+
+    // 下次抽取技能时清空“本轮已获得”展示，但保留“历史已获得”用于去重
     if (!pool.length) {
-      this.setData({ skillButtons: [] })
+      this.setData({ drawnSkills: [], obtainedSkills: [] })
       return
     }
-    // 随机抽取 1 项
-    const idx = Math.floor(Math.random() * pool.length)
-    const skill = pool[idx]
-    this.setData({ skillButtons: [{ id: `skill_${Date.now()}`, skill }] })
+
+    const obtainedNames = new Set(this.data.obtainedSkillNames || [])
+    const filteredPool = pool.filter(s => s && s.name && !obtainedNames.has(s.name))
+
+    const drawn = this.drawRandomSkills(filteredPool, 3)
+    this.setData({ drawnSkills: drawn, obtainedSkills: [] })
+  },
+
+  /** 从技能池中不重复抽取 count 个（若池子不足则返回全部洗牌后的结果） */
+  drawRandomSkills(pool, count) {
+    const arr = Array.isArray(pool) ? pool.slice() : []
+    // Fisher–Yates shuffle
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      const tmp = arr[i]
+      arr[i] = arr[j]
+      arr[j] = tmp
+    }
+    return arr.slice(0, Math.min(count, arr.length))
   },
 
   /** 阶段按钮点击 */
@@ -72,8 +98,32 @@ Page({
     })
   },
 
-  onSkillTap(e) {
+  /** 点击候选技能：三选一获得 */
+  onDrawnSkillTap(e) {
     const skill = e.currentTarget.dataset.skill
+    if (!skill) return
+
+    // 已经选过则不再重复获得
+    if (this.data.obtainedSkills && this.data.obtainedSkills.length) {
+      return
+    }
+
+    const obtainedSkillNames = this.data.obtainedSkillNames || []
+    if (!obtainedSkillNames.includes(skill.name)) {
+      obtainedSkillNames.push(skill.name)
+    }
+
+    this.setData({ 
+      obtainedSkills: [skill], 
+      drawnSkills: [],
+      obtainedSkillNames
+    })
+  },
+
+  /** 点击已获得技能：查看描述 */
+  onObtainedSkillTap(e) {
+    const skill = e.currentTarget.dataset.skill
+    if (!skill) return
     wx.showModal({ title: '技能详情', content: `${skill.name}: ${skill.description}`, showCancel: false })
   },
 
