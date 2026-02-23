@@ -7,7 +7,10 @@ Page({
     currentSkill: null, // 当前抽取到的技能
     showResult: false, // 是否显示结果
     skillsCount: 0, // 技能总数
-    backgroundImage: '', // 背景图片路径
+
+    gifBackgroundImage: '',
+    staticBackgroundImage: '',
+    useGifBackground: true, // 是否启用动图背景（用户可切换，持久化）
     loadingBackground: false // 是否正在加载背景图片
   },
 
@@ -15,8 +18,31 @@ Page({
    * 页面加载时初始化数据
    */
   onLoad() {
+    // 恢复用户对“动图背景”的选择（默认开启）
+    let useGif = true
+    try {
+      const stored = wx.getStorageSync('index_useGifBackground')
+      if (stored !== '' && stored !== null && stored !== undefined) {
+        useGif = !!stored
+      }
+    } catch (e) {
+      // ignore
+    }
+    this.setData({ useGifBackground: useGif })
+
     this.loadSkills()
-    this.loadBackgroundImage()
+    this.loadBackgroundImages()
+  },
+
+  /** 切换动图背景开关（并持久化） */
+  toggleGifBackground(e) {
+    const next = e.detail.value
+    this.setData({ useGifBackground: next })
+    try {
+      wx.setStorageSync('index_useGifBackground', next)
+    } catch (err) {
+      // ignore
+    }
   },
 
   /**
@@ -67,22 +93,29 @@ Page({
   /**
    * 从云存储下载背景图片
    */
-  loadBackgroundImage() {
-    if (!wx.cloud) {
-      return
-    }
+  /** 下载背景图（动图+静态） */
+  loadBackgroundImages() {
+    if (!wx.cloud) return
 
-    const fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/guanning(shu).png'
+    const gifID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/亢龙归义-关宁-动态.gif'
+    const staticID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/guanning(shu).png'
 
     wx.cloud.downloadFile({
-      fileID: fileID,
-      success: (res) => {
-        this.setData({
-          backgroundImage: res.tempFilePath
-        })
-      },
+      fileID: gifID,
+      success: (res) => this.setData({ gifBackgroundImage: res.tempFilePath }),
       fail: (err) => {
-        console.error('下载背景图片失败:', err)
+        console.error('index 动图背景下载失败:', err)
+        if (!this.data.gifBackgroundImage) {
+          this.setData({ gifBackgroundImage: this.data.staticBackgroundImage })
+        }
+      }
+    })
+
+    wx.cloud.downloadFile({
+      fileID: staticID,
+      success: (res) => this.setData({ staticBackgroundImage: res.tempFilePath }),
+      fail: (err) => {
+        console.error('index 静态背景下载失败:', err)
       }
     })
   },

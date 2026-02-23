@@ -2,16 +2,23 @@
 <button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回" style="position: fixed; left: 24rpx; top: 85rpx">
   <text class="back-icon">‹</text>
 </button>
-<view class="container">
-  <!-- 预览小图背景（xvshao.png） -->
-  <view class="background-layer" wx:if="{{backgroundPreview}}">
-    <image class="background-image" src="{{backgroundPreview}}" mode="aspectFill"></image>
-    <view class="background-overlay"></view>
-  </view>
 
-  <!-- 大图背景（xvshao3.png），加载出来后覆盖在上面 -->
-  <view class="background-layer" wx:if="{{backgroundImage}}">
-    <image class="background-image" src="{{backgroundImage}}" mode="aspectFill"></image>
+<!-- 动态背景切换开关 -->
+<view class="setting-switch-wrapper" style="position: fixed; right: 24rpx; top: 85rpx; z-index: 100;">
+  <view class="switch-container" style="position: relative; left: 0rpx; top: 100rpx">
+    <text class="switch-label">动图背景</text>
+    <switch checked="{{useGifBackground}}" bindchange="toggleGifBackground" color="#667eea" scale="0.8" />
+  </view>
+</view>
+
+<view class="container">
+  <!-- 背景图片层：开启时显示动图，关闭时显示静态图 -->
+  <view class="background-layer" wx:if="{{(useGifBackground && gifBackgroundImage) || (!useGifBackground && staticBackgroundImage)}}">
+    <image
+      class="background-image"
+      src="{{useGifBackground ? gifBackgroundImage : staticBackgroundImage}}"
+      mode="aspectFill"
+    ></image>
     <view class="background-overlay"></view>
   </view>
 

@@ -6,7 +6,8 @@
     "pages/guanning_online/guanning_online",
     "pages/xvshao/xvshao",
     "pages/dianwei/dianwei",
-    "pages/zhaoxiang/zhaoxiang"
+    "pages/zhaoxiang/zhaoxiang",
+    "pages/caojinyu/caojinyu"
   ],
   "window": {
     "navigationBarTextStyle": "black",

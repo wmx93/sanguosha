@@ -2,23 +2,33 @@
 <button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回" style="position: fixed; left: 29rpx; top: 88rpx">
   <text class="back-icon">‹</text>
 </button>
+
+<!-- 动态背景切换开关 -->
+<view class="setting-switch-wrapper" style="position: fixed; right: 24rpx; top: 85rpx; z-index: 100;">
+  <view class="switch-container" style="position: relative; left: 0rpx; top: 100rpx">
+    <text class="switch-label">动图背景</text>
+    <switch checked="{{useGifBackground}}" bindchange="toggleGifBackground" color="#667eea" scale="0.8" />
+  </view>
+</view>
+
 <scroll-view class="scrollarea" scroll-y type="list">
-  <!-- 背景图片层 -->
-  <view class="background-layer" wx:if="{{backgroundImage}}">
-    <image class="background-image" src="{{backgroundImage}}" mode="aspectFill"></image>
+  <!-- 背景图片层：开启时显示动图，关闭时显示静态图 -->
+  <view class="background-layer" wx:if="{{(useGifBackground && gifBackgroundImage) || (!useGifBackground && staticBackgroundImage)}}">
+    <image class="background-image" src="{{useGifBackground ? gifBackgroundImage : staticBackgroundImage}}" mode="aspectFill"></image>
     <view class="background-overlay"></view>
   </view>
+
   <view class="container">
     <view class="title">关宁</view>
-    
+
     <view class="button-container">
-      <button class="draw-btn" bindtap="drawSkill">抽取技能</button>
+      <button class="draw-btn" bindtap="drawSkill" hover-class="btn-press" hover-stay-time="60">抽取技能</button>
     </view>
 
     <view class="result-container" wx:if="{{showResult && currentSkill}}">
       <view class="skill-card">
         <view class="skill-name">{{currentSkill.name}}</view>
-        <view class="skill-description">{{currentSkill.description || '暂无描述'}}</view>
+        <view class="skill-description">{{currentSkill.description || '暂无描述'}} </view>
       </view>
     </view>
 

@@ -3,7 +3,9 @@ const skillsData = require('../../utils/skillsData.js')
 
 Page({
   data: {
-    backgroundImage: '',
+    gifBackgroundImage: '',
+    staticBackgroundImage: '',
+    useGifBackground: true, // 是否启用动图背景（用户可切换，持久化）
 
     // 梅影标记数量
     meiyingCount: 0,
@@ -16,7 +18,30 @@ Page({
   },
 
   onLoad() {
-    this.loadBackgroundImage()
+    // 恢复用户对“动图背景”的选择（默认开启）
+    let useGif = true
+    try {
+      const stored = wx.getStorageSync('zhaoxiang_useGifBackground')
+      if (stored !== '' && stored !== null && stored !== undefined) {
+        useGif = !!stored
+      }
+    } catch (e) {
+      // ignore
+    }
+
+    this.setData({ useGifBackground: useGif })
+    this.loadBackgroundImages()
+  },
+
+  /** 切换动图背景开关（并持久化） */
+  toggleGifBackground(e) {
+    const next = !!(e && e.detail ? e.detail.value : !this.data.useGifBackground)
+    this.setData({ useGifBackground: next })
+    try {
+      wx.setStorageSync('zhaoxiang_useGifBackground', next)
+    } catch (err) {
+      // ignore
+    }
   },
 
   /** 增加梅影标记 */
@@ -157,7 +182,6 @@ Page({
   /** 用于 catchtap 阻止弹窗冒泡 */
   noop() {},
 
-
   drawRandomItems(arr, count) {
     const copy = Array.isArray(arr) ? arr.slice() : []
     // Fisher–Yates shuffle
@@ -171,18 +195,36 @@ Page({
   },
 
   /** 使用 wx.cloud.downloadFile 下载背景图 */
-  loadBackgroundImage() {
+  loadBackgroundImages() {
     if (!wx.cloud) return
 
-    const fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/月痕芳影-赵襄-动态.gif'
+    
+    const gifID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/月痕芳影-赵襄-动态.gif'
+    const staticID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/zhaoxiang.png'
 
+    // 下载动图
     wx.cloud.downloadFile({
-      fileID,
+      fileID: gifID,
       success: (res) => {
-        this.setData({ backgroundImage: res.tempFilePath })
+        this.setData({ gifBackgroundImage: res.tempFilePath })
       },
       fail: (err) => {
-        console.error('赵襄背景图下载失败', err)
+        console.error('赵襄动图背景下载失败', err)
+        // 如果 gif 下载失败，尝试用 png 兜底
+        if (!this.data.gifBackgroundImage) {
+          this.setData({ gifBackgroundImage: this.data.staticBackgroundImage })
+        }
+      }
+    })
+
+    // 下载静态图
+    wx.cloud.downloadFile({
+      fileID: staticID,
+      success: (res) => {
+        this.setData({ staticBackgroundImage: res.tempFilePath })
+      },
+      fail: (err) => {
+        console.error('赵襄静态背景下载失败', err)
       }
     })
   },

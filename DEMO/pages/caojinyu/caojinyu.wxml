@@ -1,0 +1,59 @@
+<!-- pages/caojinyu/caojinyu.wxml -->
+<button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回">
+  <text class="back-icon">‹</text>
+</button>
+
+<!-- 动态背景切换开关 -->
+<view class="setting-switch-wrapper">
+  <view class="switch-container" style="position: relative; left: 0rpx; top: 100rpx">
+    <text class="switch-label">动图背景</text>
+    <switch checked="{{useGifBackground}}" bindchange="toggleGifBackground" color="#667eea" scale="0.8" />
+  </view>
+</view>
+
+<view class="container">
+  <!-- 背景图片层：开启时显示动图，关闭时显示静态图 -->
+  <view class="background-layer" wx:if="{{(useGifBackground && gifBackgroundImage) || (!useGifBackground && staticBackgroundImage)}}">
+    <image
+      class="background-image"
+      src="{{useGifBackground ? gifBackgroundImage : staticBackgroundImage}}"
+      mode="aspectFill"
+    ></image>
+    <view class="background-overlay"></view>
+  </view>
+
+  <view class="content-wrapper">
+    <view class="page-title">曹金玉</view>
+
+    <!-- 四个标签展示 -->
+    <view class="label-group">
+      <view class="label-item">
+        <text class="label-text">计算与其的距离其不大于</text>
+        <text class="label-value">{{distanceLimit}}</text>
+      </view>
+      <view class="label-item">
+        <text class="label-text">你可以观看牌堆顶的</text>
+        <text class="label-value">{{watchCount}}</text>
+        <text class="label-text">张牌</text>
+      </view>
+      <view class="label-item">
+        <text class="label-text">将其中至多</text>
+        <text class="label-value">{{handOverLimit}}</text>
+        <text class="label-text">张牌交给受伤角色</text>
+      </view>
+      <view class="label-item">
+        <text class="label-text">获得其中至多</text>
+        <text class="label-value">{{gainLimit}}</text>
+        <text class="label-text">张牌</text>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="action-btn" bindtap="increaseByOne" hover-class="btn-press" hover-stay-time="60">娴静+1</button>
+      <button class="action-btn" bindtap="increaseByTwo" hover-class="btn-press" hover-stay-time="60">善身+2</button>
+      <button class="undo-btn" bindtap="undoLastStep" hover-class="btn-press" hover-stay-time="60">撤销上一步</button>
+      <button class="reset-btn" bindtap="resetValues" hover-class="btn-press" hover-stay-time="60">重置</button>
+    </view>
+  </view>
+</view>

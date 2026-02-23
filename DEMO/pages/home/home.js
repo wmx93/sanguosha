@@ -22,5 +22,9 @@ Page({
   /** 跳转到赵襄页面 */
   goZhaoxiang() {
     wx.navigateTo({ url: '/pages/zhaoxiang/zhaoxiang' })
+  },
+  /** 跳转到曹金玉页面 */
+  goCaoJinYu() {
+    wx.navigateTo({ url: '/pages/caojinyu/caojinyu' })
   }
 })

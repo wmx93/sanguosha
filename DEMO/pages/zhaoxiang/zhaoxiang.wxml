@@ -3,10 +3,22 @@
   <text class="back-icon">‹</text>
 </button>
 
+<!-- 动态背景切换开关 -->
+<view class="setting-switch-wrapper" style="position: fixed; right: 24rpx; top: 85rpx; z-index: 100;">
+  <view class="switch-container" style="position: relative; left: 0rpx; top: 100rpx">
+    <text class="switch-label" style="position: relative; left: -1rpx; top: -1rpx">动图背景</text>
+    <switch style="position: relative; left: -6rpx; top: 3rpx" checked="{{useGifBackground}}" bindchange="toggleGifBackground" color="#667eea" scale="0.8" />
+  </view>
+</view>
+
 <view class="container">
-  <!-- 背景图片层 -->
-  <view class="background-layer" wx:if="{{backgroundImage}}">
-    <image class="background-image" src="{{backgroundImage}}" mode="aspectFill"></image>
+  <!-- 背景图片层：开启时显示动图，关闭时显示静态图 -->
+  <view class="background-layer" wx:if="{{(useGifBackground && gifBackgroundImage) || (!useGifBackground && staticBackgroundImage)}}">
+    <image
+      class="background-image"
+      src="{{useGifBackground ? gifBackgroundImage : staticBackgroundImage}}"
+      mode="aspectFill"
+    ></image>
     <view class="background-overlay"></view>
   </view>
 
@@ -17,16 +29,16 @@
     <view class="counter-card">
       <view class="counter-label">‘梅影’标记</view>
       <view class="counter-controls">
-        <button class="count-btn" bindtap="decreaseMeiying">-</button>
+        <button class="count-btn" bindtap="decreaseMeiying" hover-class="btn-press" hover-stay-time="60">-</button>
         <text class="count-number">{{meiyingCount}}</text>
-        <button class="count-btn" bindtap="increaseMeiying">+</button>
+        <button class="count-btn" bindtap="increaseMeiying" hover-class="btn-press" hover-stay-time="60">+</button>
       </view>
-      <button class="reset-btn" bindtap="resetMeiying">一键清零</button>
+      <button class="reset-btn" bindtap="resetMeiying" hover-class="btn-press" hover-stay-time="60">一键清零</button>
     </view>
 
     <!-- 扶汉功能 -->
     <view class="fuhan-container">
-      <button class="fuhan-main-btn" bindtap="openFuhanModal">扶汉</button>
+      <button class="fuhan-main-btn" bindtap="openFuhanModal" hover-class="btn-press" hover-stay-time="60">扶汉</button>
 
       <!-- 已保留技能（最多2个） -->
       <view class="reserved-panel" wx:if="{{reservedSkills.length}}">
@@ -85,14 +97,14 @@
     <view class="modal-header">选择武将数</view>
     <view class="modal-body">
       <view class="selector-controls">
-        <button class="selector-btn" bindtap="decreaseSelectCount">-</button>
+        <button class="selector-btn" bindtap="decreaseSelectCount" hover-class="btn-press" hover-stay-time="60">-</button>
         <text class="selector-number">{{selectGeneralCount}}</text>
-        <button class="selector-btn" bindtap="increaseSelectCount">+</button>
+        <button class="selector-btn" bindtap="increaseSelectCount" hover-class="btn-press" hover-stay-time="60">+</button>
       </view>
       <view class="selector-hint">至少选择 4 名武将</view>
     </view>
     <view class="modal-footer">
-      <button class="modal-confirm-btn" bindtap="confirmFuhan">确定抽取</button>
+      <button class="modal-confirm-btn" bindtap="confirmFuhan" hover-class="btn-press" hover-stay-time="60">确定抽取</button>
     </view>
   </view>
 </view>

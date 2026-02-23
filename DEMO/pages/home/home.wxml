@@ -29,5 +29,9 @@
       <view class="card-title">赵襄</view>
       <view class="card-desc">芳魂、扶汉</view>
     </view>
+    <view class="card" bindtap="goCaoJinYu">
+      <view class="card-title">曹金玉</view>
+      <view class="card-desc">隅泣</view>
+    </view>
   </view>
 </view>

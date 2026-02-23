@@ -65,13 +65,63 @@ Page({
     showSecondaryButtons: false,
     showSkills: false,
     clickedSecondaryButtons: [],
-    backgroundImage: '',
+
+    gifBackgroundImage: '',
+    staticBackgroundImage: '',
+    useGifBackground: true, // 是否启用动图背景
+
     option2Count: 0
   },
 
   onLoad() {
+    // 恢复用户对“动图背景”的选择
+    let useGif = true
+    try {
+      const stored = wx.getStorageSync('guanning_online_useGifBackground')
+      if (stored !== '' && stored !== null && stored !== undefined) {
+        useGif = !!stored
+      }
+    } catch (e) {}
+    this.setData({ useGifBackground: useGif })
+
     this.initializeSkills()
-    setTimeout(() => this.loadBackgroundImage(), 200)
+    setTimeout(() => this.loadBackgroundImages(), 200)
+  },
+
+  /** 切换动图背景开关 */
+  toggleGifBackground(e) {
+    const next = e.detail.value
+    this.setData({ useGifBackground: next })
+    try {
+      wx.setStorageSync('guanning_online_useGifBackground', next)
+    } catch (err) {}
+  },
+
+  /** 下载背景图 */
+  loadBackgroundImages() {
+    if (!wx.cloud) return
+
+    const gifID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/墨韵荷香-管宁-动态.gif'
+    const staticID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/guanning(wei).png'
+
+    // 下载动图
+    wx.cloud.downloadFile({
+      fileID: gifID,
+      success: (res) => this.setData({ gifBackgroundImage: res.tempFilePath }),
+      fail: (err) => {
+        console.error('管宁(online)动图下载失败', err)
+        if (!this.data.gifBackgroundImage) {
+          this.setData({ gifBackgroundImage: this.data.staticBackgroundImage })
+        }
+      }
+    })
+
+    // 下载静态图
+    wx.cloud.downloadFile({
+      fileID: staticID,
+      success: (res) => this.setData({ staticBackgroundImage: res.tempFilePath }),
+      fail: (err) => console.error('管宁(online)静态图下载失败', err)
+    })
   },
 
   /** 首次随机 3 个技能 */
@@ -189,16 +239,6 @@ Page({
     const newCount = this.data.option2Count + 1
     const secondaryButtons = this.data.secondaryButtons.map(b => b.id === 'option2' ? { ...b, text: `减1点体力上限并摸${newCount}张牌` } : b)
     this.setData({ mainButtons: filtered, option2Count: newCount, secondaryButtons })
-  },
-
-  loadBackgroundImage() {
-    if (!wx.cloud) return
-    const fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/guanning(wei).png'
-    wx.cloud.downloadFile({
-      fileID,
-      success: res => this.setData({ backgroundImage: res.tempFilePath }),
-      fail: err => console.error('背景图下载失败', err)
-    })
   },
 
   goBack() { wx.navigateBack({ delta: 1 }) }

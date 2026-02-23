@@ -20,34 +20,56 @@ Page({
     // 本局(页面生命周期内)已获得过的技能名，用于后续抽取去重
     obtainedSkillNames: [],
 
-    backgroundImage: '', // 大图
-    backgroundPreview: '' // 预览小图
+    gifBackgroundImage: '',
+    staticBackgroundImage: '',
+    useGifBackground: true, // 是否启用动图背景
   },
   onLoad() {
-    this.loadPreviewBackground()
-    this.loadBackgroundImage()
+    // 恢复用户对“动图背景”的选择
+    let useGif = true
+    try {
+      const stored = wx.getStorageSync('xvshao_useGifBackground')
+      if (stored !== '' && stored !== null && stored !== undefined) {
+        useGif = !!stored
+      }
+    } catch (e) {}
+    this.setData({ useGifBackground: useGif })
+
+    this.loadBackgroundImages()
     this.initializeSkills()
   },
 
-  /** 下载预览背景（小图） */
-  loadPreviewBackground() {
-    if (!wx.cloud) return
-    const fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/xvshaos.jpg'
-    wx.cloud.downloadFile({
-      fileID,
-      success: res => this.setData({ backgroundPreview: res.tempFilePath }),
-      fail: err => console.error('许劭预览背景图下载失败', err)
-    })
+  /** 切换动图背景开关 */
+  toggleGifBackground(e) {
+    const next = e.detail.value
+    this.setData({ useGifBackground: next })
+    try {
+      wx.setStorageSync('xvshao_useGifBackground', next)
+    } catch (err) {}
   },
 
-  /** 下载背景（大图） */
-  loadBackgroundImage() {
+  /** 下载背景图 */
+  loadBackgroundImages() {
     if (!wx.cloud) return
-    const fileID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/xvshao3.png'
+    
+    const gifID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/评世雕龙-许劭-动态.gif'
+    const staticID = 'cloud://cloud1-0g2xp4814f005202.636c-cloud1-0g2xp4814f005202-1387105082/xvshao3.png'
+
+    // 下载动图
     wx.cloud.downloadFile({
-      fileID,
-      success: res => this.setData({ backgroundImage: res.tempFilePath }),
-      fail: err => console.error('许劭背景图下载失败', err)
+      fileID: gifID,
+      success: res => this.setData({ gifBackgroundImage: res.tempFilePath }),
+      fail: err => {
+        console.error('许劭动图下载失败', err)
+        if (!this.data.gifBackgroundImage) this.setData({ gifBackgroundImage: this.data.staticBackgroundImage })
+      }
+    })
+
+    // 下载静态图
+    wx.cloud.downloadFile({
+      fileID: staticID,
+      success: res => this.setData({ staticBackgroundImage: res.tempFilePath }),
+      fail: err => console.error('许劭静态图下载失败', err)
     })
   },
 
