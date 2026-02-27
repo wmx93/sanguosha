@@ -1,37 +1,106 @@
-<view class="page"  style="height: 1722rpx; display: block; box-sizing: border-box; position: relative; left: 0rpx; top: -28rpx">
-  <view class="header">
-    <view class="title">功能列表</view>
-    <view class="subtitle">后续你给我更多分页面，我会把入口继续加在这里</view>
+<view class="page">
+  <!-- 品牌头部 -->
+  <view class="brand-header">
+    <view class="logo-section">
+      <view class="logo">🎯</view>
+      <view class="brand-info">
+      </view>
+    </view>
+    <view class="header-actions">
+      <view class="search-bar">
+        <text class="search-icon">🔍</text>
+        <input
+          class="search-input"
+          type="text"
+          placeholder="搜索武将，回车直达..."
+          value="{{searchKeyword}}"
+          confirm-type="search"
+          bindinput="onSearchInput"
+          bindconfirm="onSearchConfirm"
+        />
+      </view>
+    </view>
   </view>
 
-  <view class="grid">
-    <view class="card" bindtap="goSkillDraw">
-      <view class="card-title">关宁</view>
-      <view class="card-desc">随机获得一个技能</view>
-    </view>
-    <view class="card" bindtap="goGuanNing">
-      <view class="card-title">管宁（平均概率）</view>
-      <view class="card-desc">跟我的礼赂同礼说去吧</view>
-    </view>
-    <view class="card" bindtap="goGuanNingOnline">
-      <view class="card-title">管宁（线上版）</view>
-      <view class="card-desc">原汁原味</view>
-    </view>
-    <view class="card" bindtap="goXvshao">
-      <view class="card-title">许劭</view>
-      <view class="card-desc">随机获得技能</view>
-    </view>
-    <view class="card" bindtap="goDianwei">
-      <view class="card-title">神典韦</view>
-      <view class="card-desc">获得两只胳膊</view>
-    </view>
-    <view class="card" bindtap="goZhaoxiang">
-      <view class="card-title">赵襄</view>
-      <view class="card-desc">芳魂、扶汉</view>
-    </view>
-    <view class="card" bindtap="goCaoJinYu">
-      <view class="card-title">曹金玉</view>
-      <view class="card-desc">隅泣</view>
+  <!-- 轮播图 -->
+  <view class="banner-section">
+    <swiper class="banner-swiper" indicator-dots="{{true}}" autoplay="{{true}}" circular="{{true}}" interval="5000">
+      <swiper-item>
+        <view class="banner-item">
+          <image class="banner-image" src="" mode="aspectFill" />
+          <view class="banner-overlay">
+            <view class="banner-title">限时活动</view>
+            <view class="banner-subtitle">双倍技能经验</view>
+          </view>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <view class="banner-item">
+          <image class="banner-image" src="" mode="aspectFill" />
+          <view class="banner-overlay">
+            <view class="banner-title">新手指南</view>
+            <view class="banner-subtitle">快速上手技能系统</view>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="quick-entries">
+    <view class="section-title">快捷入口</view>
+    <view class="entries-grid">
+      <view class="entry-item" bindtap="goSkillDraw">
+        <view class="entry-icon">
+          <image class="entry-icon-img" src="/assets/icons/guangning.png" mode="aspectFit" />
+        </view>
+        <view class="entry-text">关宁</view>
+      </view>
+      <view class="entry-item" bindtap="goGuanNing">
+        <view class="entry-icon">
+          <image class="entry-icon-img" src="/assets/icons/guanning.png" mode="aspectFit" />
+        </view>
+        <view class="entry-text">管宁</view>
+      </view>
+      <view class="entry-item" bindtap="goGuanNingOnline">
+        <view class="entry-icon">
+          <image class="entry-icon-img" src="/assets/icons/guanning.png" mode="aspectFit" />
+        </view>
+        <view class="entry-text">管宁线上版</view>
+      </view>
+      <view class="entry-item" bindtap="goXvshao">
+        <view class="entry-icon">
+          <image class="entry-icon-img" src="/assets/icons/xvshao.png" mode="aspectFit" />
+        </view>
+        <view class="entry-text">许劭</view>
+      </view>
+      <view class="entry-item" bindtap="goDianwei">
+        <view class="entry-icon">
+          <image class="entry-icon-img" src="/assets/icons/dianwei.png" mode="aspectFit" />
+        </view>
+        <view class="entry-text">神典韦</view>
+      </view>
+      <view class="entry-item" bindtap="goZhaoxiang">
+        <view class="entry-icon">
+          <image class="entry-icon-img" src="/assets/icons/zhaoxiang.png" mode="aspectFit" />
+        </view>
+        <view class="entry-text">赵襄</view>
+      </view>
+      <view class="entry-item" bindtap="goCaoJinYu">
+        <view class="entry-icon">
+          <image class="entry-icon-img" src="/assets/icons/caojinyu.png" mode="aspectFit" />
+        </view>
+        <view class="entry-text">曹金玉</view>
+      </view>
+      <view class="entry-item" bindtap="goShenJiangWei">
+        <view class="entry-icon">
+          <image class="entry-icon-img" src="/assets/icons/shenjiangwei.png" mode="aspectFit" />
+        </view>
+        <view class="entry-text">神姜维</view>
+      </view>
     </view>
   </view>
+
+  <!-- 底部占位 -->
+  <view class="bottom-spacer"></view>
 </view>

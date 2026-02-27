@@ -1,0 +1,53 @@
+<!-- pages/shenjiangwei/shenjiangwei.wxml -->
+<button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回">
+  <text class="back-icon">‹</text>
+</button>
+
+<view class="setting-switch-wrapper">
+  <view class="switch-container" style="position: relative; left: 0rpx; top: 86rpx">
+    <text class="switch-label">动图背景</text>
+    <switch checked="{{useGifBackground}}" bindchange="toggleGifBackground" color="#667eea" scale="0.8" />
+  </view>
+</view>
+
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="background-layer" wx:if="{{(useGifBackground && gifBackgroundImage) || (!useGifBackground && staticBackgroundImage)}}">
+    <image class="background-image" src="{{useGifBackground ? gifBackgroundImage : staticBackgroundImage}}" mode="aspectFill"></image>
+    <view class="background-overlay"></view>
+  </view>
+
+  <view class="container">
+    <view class="title">神姜维</view>
+
+    <!-- 天任标记功能 -->
+    <view class="counter-card">
+      <view class="counter-label">“天任”标记</view>
+      <view class="counter-controls">
+        <button class="count-btn" bindtap="decreaseTianren" hover-class="btn-press" hover-stay-time="60">-</button>
+        <text class="count-number">{{tianrenCount}}</text>
+        <button class="count-btn" bindtap="increaseTianren" hover-class="btn-press" hover-stay-time="60">+</button>
+      </view>
+      <button class="counter-reset-btn" bindtap="resetTianren" hover-class="btn-press" hover-stay-time="60">一键清零</button>
+    </view>
+
+    <!-- 牌名标记功能 -->
+    <view class="mark-card">
+      <view class="mark-header">
+        <text class="mark-title">牌名标记（点击变色）</text>
+        <button class="mark-reset-btn" bindtap="resetCardMarks" hover-class="btn-press" hover-stay-time="60">重置标记</button>
+      </view>
+
+      <view class="mark-grid">
+        <view
+          wx:for="{{cardMarks}}"
+          wx:key="name"
+          class="mark-item {{item.used ? 'used' : ''}}"
+          data-index="{{index}}"
+          bindtap="toggleCardMark"
+        >
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

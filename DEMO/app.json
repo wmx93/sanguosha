@@ -7,7 +7,8 @@
     "pages/xvshao/xvshao",
     "pages/dianwei/dianwei",
     "pages/zhaoxiang/zhaoxiang",
-    "pages/caojinyu/caojinyu"
+    "pages/caojinyu/caojinyu",
+    "pages/shenjiangwei/shenjiangwei"
   ],
   "window": {
     "navigationBarTextStyle": "black",
