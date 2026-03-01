@@ -1,10 +1,8 @@
 <view class="page">
-  <!-- 品牌头部 -->
   <view class="brand-header">
     <view class="logo-section">
       <view class="logo">🎯</view>
-      <view class="brand-info">
-      </view>
+      <view class="brand-info"></view>
     </view>
     <view class="header-actions">
       <view class="search-bar">
@@ -22,7 +20,6 @@
     </view>
   </view>
 
-  <!-- 轮播图 -->
   <view class="banner-section">
     <swiper class="banner-swiper" indicator-dots="{{true}}" autoplay="{{true}}" circular="{{true}}" interval="5000">
       <swiper-item>
@@ -46,61 +43,32 @@
     </swiper>
   </view>
 
-  <!-- 快捷入口 -->
   <view class="quick-entries">
     <view class="section-title">快捷入口</view>
     <view class="entries-grid">
-      <view class="entry-item" bindtap="goSkillDraw">
+      <view
+        class="entry-item"
+        wx:for="{{displayedEntries}}"
+        wx:key="name"
+        bindtap="onEntryTap"
+        data-action="{{item.action}}"
+      >
         <view class="entry-icon">
-          <image class="entry-icon-img" src="/assets/icons/guangning.png" mode="aspectFit" />
+          <image class="entry-icon-img" src="{{item.icon}}" mode="aspectFit" />
         </view>
-        <view class="entry-text">关宁</view>
+        <view class="entry-text">{{item.name}}</view>
       </view>
-      <view class="entry-item" bindtap="goGuanNing">
-        <view class="entry-icon">
-          <image class="entry-icon-img" src="/assets/icons/guanning.png" mode="aspectFit" />
-        </view>
-        <view class="entry-text">管宁</view>
-      </view>
-      <view class="entry-item" bindtap="goGuanNingOnline">
-        <view class="entry-icon">
-          <image class="entry-icon-img" src="/assets/icons/guanning.png" mode="aspectFit" />
-        </view>
-        <view class="entry-text">管宁线上版</view>
-      </view>
-      <view class="entry-item" bindtap="goXvshao">
-        <view class="entry-icon">
-          <image class="entry-icon-img" src="/assets/icons/xvshao.png" mode="aspectFit" />
-        </view>
-        <view class="entry-text">许劭</view>
-      </view>
-      <view class="entry-item" bindtap="goDianwei">
-        <view class="entry-icon">
-          <image class="entry-icon-img" src="/assets/icons/dianwei.png" mode="aspectFit" />
-        </view>
-        <view class="entry-text">神典韦</view>
-      </view>
-      <view class="entry-item" bindtap="goZhaoxiang">
-        <view class="entry-icon">
-          <image class="entry-icon-img" src="/assets/icons/zhaoxiang.png" mode="aspectFit" />
-        </view>
-        <view class="entry-text">赵襄</view>
-      </view>
-      <view class="entry-item" bindtap="goCaoJinYu">
-        <view class="entry-icon">
-          <image class="entry-icon-img" src="/assets/icons/caojinyu.png" mode="aspectFit" />
-        </view>
-        <view class="entry-text">曹金玉</view>
-      </view>
-      <view class="entry-item" bindtap="goShenJiangWei">
-        <view class="entry-icon">
-          <image class="entry-icon-img" src="/assets/icons/shenjiangwei.png" mode="aspectFit" />
-        </view>
-        <view class="entry-text">神姜维</view>
-      </view>
+    </view>
+
+    <button class="all-generals-btn" bindtap="toggleAllGenerals">
+      {{showAllGenerals ? '收起武将' : '全部武将'}}
+    </button>
+
+    <view class="tool-row">
+      <view class="tool-btn" bindtap="goCardTracker">记牌器</view>
+      <view class="tool-btn" bindtap="goHpTracker">体力值</view>
     </view>
   </view>
 
-  <!-- 底部占位 -->
   <view class="bottom-spacer"></view>
 </view>

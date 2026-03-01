@@ -1,0 +1,246 @@
+.back-btn {
+  position: fixed;
+  left: 10rpx;
+  top: 4rpx;
+  z-index: 20;
+}
+
+.back-icon {
+  font-size: 34rpx;
+}
+
+.page.landscape {
+  min-height: 100vh;
+  height: 100vh;
+  padding: 42rpx 8rpx 6rpx;
+  box-sizing: border-box;
+  background: #eef3fb;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.top-zones {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 6rpx;
+}
+
+.zone-card {
+  flex: 1;
+  background: #fff;
+  border-radius: 10rpx;
+  padding: 6rpx;
+  box-shadow: 0 3rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.zone-title {
+  font-size: 17rpx;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 4rpx;
+}
+
+.rect-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rpx;
+}
+
+.rect {
+  min-width: 76rpx;
+  height: 32rpx;
+  padding: 0 4rpx;
+  border-radius: 6rpx;
+  border: 1rpx solid rgba(59, 130, 246, 0.35);
+  background: rgba(59, 130, 246, 0.08);
+  color: #1e3a8a;
+  font-size: 14rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.rect-active {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #fff;
+  border-color: transparent;
+}
+
+.rect-disabled {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+  font-weight: 700;
+}
+
+.hp-panel {
+  flex: 1;
+  min-height: 140rpx;
+  background: #fff;
+  border-radius: 10rpx;
+  padding: 6rpx;
+  box-shadow: 0 3rpx 8rpx rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 6rpx;
+  overflow: hidden;
+}
+
+.panel-block {
+  flex: 1;
+  border: 1rpx solid rgba(37, 99, 235, 0.18);
+  border-radius: 10rpx;
+  padding: 6rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.label {
+  font-size: 17rpx;
+  color: #334155;
+  font-weight: 800;
+  margin-bottom: 6rpx;
+  text-align: center;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.compact-row {
+  margin-bottom: 5rpx;
+}
+
+.op-btn {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #fff;
+  font-weight: 800;
+  padding: 0;
+  box-shadow: 0 4rpx 10rpx rgba(37, 99, 235, 0.22);
+}
+
+.small-btn {
+  width: 52rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  border-radius: 26rpx;
+  font-size: 28rpx;
+}
+
+.op-btn::after {
+  border: none;
+}
+
+.value {
+  text-align: center;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.small-value {
+  min-width: 58rpx;
+  font-size: 34rpx;
+  line-height: 1;
+}
+
+.hp-gouyu-wrap {
+  margin-top: 2rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5rpx 7rpx;
+}
+
+.gouyu-img {
+  width: 22rpx;
+  height: 22rpx;
+  display: block;
+}
+
+/* 体力上限 + 当前体力 两个区域缩小约20% */
+.panel-left {
+  flex: 0.9;
+  padding: 4rpx;
+}
+
+.panel-right {
+  flex: 1.5;
+  padding: 6rpx;
+}
+
+.panel-armor {
+  flex: 0.7;
+  padding: 3rpx;
+}
+
+.panel-left .label,
+.panel-armor .label {
+  font-size: 14rpx;
+  margin-bottom: 4rpx;
+}
+
+.panel-right .label {
+  font-size: 18rpx;
+  margin-bottom: 6rpx;
+}
+
+.panel-left .control-row,
+.panel-armor .control-row {
+  gap: 6rpx;
+}
+
+.panel-right .control-row {
+  gap: 10rpx;
+}
+
+.panel-left .compact-row,
+.panel-armor .compact-row {
+  margin-bottom: 3rpx;
+}
+
+.panel-right .compact-row {
+  margin-bottom: 5rpx;
+}
+
+.panel-left .small-btn,
+.panel-armor .small-btn {
+  width: 42rpx;
+  height: 42rpx;
+  line-height: 42rpx;
+  border-radius: 21rpx;
+  font-size: 22rpx;
+}
+
+.panel-right .small-btn {
+  width: 52rpx;
+  height: 52rpx;
+  line-height: 52rpx;
+  border-radius: 26rpx;
+  font-size: 28rpx;
+}
+
+.panel-left .small-value,
+.panel-armor .small-value {
+  min-width: 46rpx;
+  font-size: 27rpx;
+}
+
+.panel-right .small-value {
+  min-width: 62rpx;
+  font-size: 36rpx;
+}
+
+.panel-right .gouyu-img {
+  width: 20rpx;
+  height: 20rpx;
+}
+
+.panel-right .hp-gouyu-wrap {
+  gap: 4rpx 6rpx;
+}

@@ -85,37 +85,6 @@
   color: #1a202c;
 }
 
-/* 公告栏 */
-.announcement-bar {
-  margin-top: 16rpx;
-  border-radius: 16rpx;
-  padding: 16rpx 20rpx;
-  background: linear-gradient(135deg, #007AFF 0%, #4A90E2 100%);
-  color: white;
-  box-shadow: 0 6rpx 20rpx rgba(0, 122, 255, 0.25);
-}
-
-.announcement-content {
-  display: flex;
-  align-items: center;
-  gap: 12rpx;
-}
-
-.announcement-icon {
-  font-size: 28rpx;
-}
-
-.announcement-text {
-  flex: 1;
-  font-size: 26rpx;
-  font-weight: 600;
-}
-
-.announcement-arrow {
-  font-size: 32rpx;
-  line-height: 1;
-}
-
 /* 轮播 */
 .banner-section {
   margin-top: 20rpx;
@@ -179,13 +148,14 @@
   margin-top: 18rpx;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  column-gap: 16rpx;
+  row-gap: 16rpx;
 }
 
 .entry-item {
+  flex: 0 0 160rpx;
   width: 160rpx;
   height: 160rpx;
-  margin-bottom: 16rpx;
   border-radius: 16rpx;
   background: white;
   border: 2rpx solid rgba(0, 122, 255, 0.1);
@@ -229,133 +199,52 @@
   text-align: center;
 }
 
-/* 推荐 */
-.recommend-section {
-  margin-top: 30rpx;
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 4rpx;
-}
-
-.section-more {
-  font-size: 24rpx;
-  color: #007AFF;
-  font-weight: 600;
-}
-
-.recommend-list {
-  margin-top: 18rpx;
-  display: flex;
-  flex-direction: column;
-  gap: 16rpx;
-}
-
-.recommend-item {
-  display: flex;
-  gap: 16rpx;
-  padding: 20rpx;
-  border-radius: 16rpx;
-  background: white;
-  border: 2rpx solid rgba(0, 122, 255, 0.08);
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
-}
-
-.recommend-image {
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 16rpx;
-  background: linear-gradient(135deg, #007AFF 0%, #4A90E2 100%);
-  border: 2rpx solid rgba(0, 122, 255, 0.2);
-  flex-shrink: 0;
-}
-
-.recommend-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.recommend-title {
+.all-generals-btn {
+  margin-top: 20rpx;
+  width: 100%;
+  height: 76rpx;
+  border-radius: 38rpx;
   font-size: 28rpx;
   font-weight: 700;
-  color: #1a202c;
-  line-height: 1.3;
-}
-
-.recommend-desc {
-  margin-top: 8rpx;
-  font-size: 24rpx;
-  color: #64748b;
-  line-height: 1.4;
-}
-
-.recommend-meta {
-  margin-top: 14rpx;
-  display: flex;
-  gap: 12rpx;
-}
-
-.meta-item {
-  font-size: 20rpx;
   color: #007AFF;
-  padding: 6rpx 12rpx;
-  border-radius: 999rpx;
-  background: rgba(0, 122, 255, 0.08);
-  border: 1rpx solid rgba(0, 122, 255, 0.15);
-  font-weight: 600;
-}
-
-/* 会员 */
-.member-section {
-  margin-top: 28rpx;
-}
-
-.member-card {
-  border-radius: 20rpx;
-  padding: 24rpx 20rpx;
+  background: #ffffff;
+  border: 2rpx solid rgba(0, 122, 255, 0.2);
+  padding: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border: 2rpx solid rgba(0, 122, 255, 0.15);
-  box-shadow: 0 8rpx 32rpx rgba(0, 122, 255, 0.15);
+  justify-content: center;
+  text-align: center;
 }
 
-.member-info {
-  flex: 1;
-}
-
-.member-title {
-  font-size: 30rpx;
-  font-weight: 800;
-  color: #1a202c;
-}
-
-.member-desc {
-  margin-top: 6rpx;
-  font-size: 24rpx;
-  color: #64748b;
-  font-weight: 600;
-}
-
-.member-action {
-  margin-left: 20rpx;
-}
-
-.vip-button {
-  padding: 14rpx 24rpx;
-  border-radius: 999rpx;
-  background: linear-gradient(135deg, #007AFF 0%, #4A90E2 100%);
-  color: white;
-  font-weight: 800;
-  font-size: 26rpx;
-  box-shadow: 0 6rpx 20rpx rgba(0, 122, 255, 0.3);
+.all-generals-btn::after {
   border: none;
+}
+
+.tool-row {
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.tool-btn {
+  width: 330rpx;
+  height: 330rpx;
+  border-radius: 28rpx;
+  background: linear-gradient(180deg, #1688FF 0%, #3BA0FF 50%, #69B8FF 100%);
+  color: #ffffff;
+  font-size: 34rpx;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 10rpx 28rpx rgba(0, 122, 255, 0.28);
+}
+
+.tool-btn:active {
+  transform: scale(0.98);
+  opacity: 0.92;
 }
 
 /* 底部留白 */

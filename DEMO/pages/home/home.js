@@ -1,19 +1,22 @@
 Page({
   data: {
-    // 预留：后续可以替换为真实图片链接
     banners: [
-      {
-        title: '限时活动',
-        subtitle: '双倍技能经验',
-        image: ''
-      },
-      {
-        title: '新手指南',
-        subtitle: '快速上手技能系统',
-        image: ''
-      }
+      { title: '限时活动', subtitle: '双倍技能经验', image: '' },
+      { title: '新手指南', subtitle: '快速上手技能系统', image: '' }
     ],
-    searchKeyword: ''
+    searchKeyword: '',
+    showAllGenerals: false,
+    displayedEntries: [],
+    quickEntries: [
+      { name: '关宁', icon: '/assets/icons/guangning.png', action: 'goSkillDraw' },
+      { name: '管宁', icon: '/assets/icons/guanning.png', action: 'goGuanNing' },
+      { name: '管宁线上版', icon: '/assets/icons/guanning.png', action: 'goGuanNingOnline' },
+      { name: '许劭', icon: '/assets/icons/xvshao.png', action: 'goXvshao' },
+      { name: '神典韦', icon: '/assets/icons/dianwei.png', action: 'goDianwei' },
+      { name: '赵襄', icon: '/assets/icons/zhaoxiang.png', action: 'goZhaoxiang' },
+      { name: '曹金玉', icon: '/assets/icons/caojinyu.png', action: 'goCaoJinYu' },
+      { name: '神姜维', icon: '/assets/icons/shenjiangwei.png', action: 'goShenJiangWei' }
+    ]
   },
 
   searchRouteMap: {
@@ -37,20 +40,40 @@ Page({
     jiangwei: '/pages/shenjiangwei/shenjiangwei'
   },
 
-  onSearchInput(e) {
+  onLoad() {
+    this.updateDisplayedEntries()
+  },
+
+  updateDisplayedEntries() {
+    const { quickEntries, showAllGenerals } = this.data
     this.setData({
-      searchKeyword: e.detail.value || ''
+      displayedEntries: showAllGenerals ? quickEntries : quickEntries.slice(0, 8)
     })
+  },
+
+  toggleAllGenerals() {
+    this.setData({
+      showAllGenerals: !this.data.showAllGenerals
+    }, () => {
+      this.updateDisplayedEntries()
+    })
+  },
+
+  onEntryTap(e) {
+    const action = e.currentTarget.dataset.action
+    if (action && typeof this[action] === 'function') {
+      this[action]()
+    }
+  },
+
+  onSearchInput(e) {
+    this.setData({ searchKeyword: e.detail.value || '' })
   },
 
   onSearchConfirm() {
     const keyword = (this.data.searchKeyword || '').trim()
-
     if (!keyword) {
-      wx.showToast({
-        title: '请输入武将名称',
-        icon: 'none'
-      })
+      wx.showToast({ title: '请输入武将名称', icon: 'none' })
       return
     }
 
@@ -65,48 +88,27 @@ Page({
     const targetUrl = directMatch || normalizedMatch || (partialMatchKey ? this.searchRouteMap[partialMatchKey] : '')
 
     if (!targetUrl) {
-      wx.showToast({
-        title: '未找到对应武将页面',
-        icon: 'none'
-      })
+      wx.showToast({ title: '未找到对应武将页面', icon: 'none' })
       return
     }
 
-    wx.navigateTo({
-      url: targetUrl
-    })
+    wx.navigateTo({ url: targetUrl })
   },
 
-  /** 跳转到技能抽取页面 */
-  goSkillDraw() {
-    wx.navigateTo({ url: '/pages/index/index' })
+  goSkillDraw() { wx.navigateTo({ url: '/pages/index/index' }) },
+  goGuanNing() { wx.navigateTo({ url: '/pages/guanning/guanning' }) },
+  goGuanNingOnline() { wx.navigateTo({ url: '/pages/guanning_online/guanning_online' }) },
+  goXvshao() { wx.navigateTo({ url: '/pages/xvshao/xvshao' }) },
+  goDianwei() { wx.navigateTo({ url: '/pages/dianwei/dianwei' }) },
+  goZhaoxiang() { wx.navigateTo({ url: '/pages/zhaoxiang/zhaoxiang' }) },
+  goCaoJinYu() { wx.navigateTo({ url: '/pages/caojinyu/caojinyu' }) },
+  goShenJiangWei() { wx.navigateTo({ url: '/pages/shenjiangwei/shenjiangwei' }) },
+
+  goCardTracker() {
+    wx.navigateTo({ url: '/pages/card_tracker/card_tracker' })
   },
-  /** 跳转到管宁（平均概率） */
-  goGuanNing() {
-    wx.navigateTo({ url: '/pages/guanning/guanning' })
-  },
-  /** 跳转到管宁（上线版） */
-  goGuanNingOnline() {
-    wx.navigateTo({ url: '/pages/guanning_online/guanning_online' })
-  },
-  /** 跳转到许劭页面 */
-  goXvshao() {
-    wx.navigateTo({ url: '/pages/xvshao/xvshao' })
-  },
-  /** 跳转到典韦页面 */
-  goDianwei() {
-    wx.navigateTo({ url: '/pages/dianwei/dianwei' })
-  },
-  /** 跳转到赵襄页面 */
-  goZhaoxiang() {
-    wx.navigateTo({ url: '/pages/zhaoxiang/zhaoxiang' })
-  },
-  /** 跳转到曹金玉页面 */
-  goCaoJinYu() {
-    wx.navigateTo({ url: '/pages/caojinyu/caojinyu' })
-  },
-  /** 跳转到神姜维页面 */
-  goShenJiangWei() {
-    wx.navigateTo({ url: '/pages/shenjiangwei/shenjiangwei' })
+
+  goHpTracker() {
+    wx.navigateTo({ url: '/pages/hp_tracker/hp_tracker' })
   }
 })

@@ -1,0 +1,76 @@
+<button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回">
+  <text class="back-icon">‹</text>
+</button>
+
+<view class="page landscape">
+  <view class="top-zones">
+    <view class="zone-card">
+      <view class="zone-title">判定区</view>
+      <view class="rect-row">
+        <view
+          class="rect {{judgmentActive[index] ? 'rect-active' : ''}}"
+          wx:for="{{judgmentSlots}}"
+          wx:key="index"
+          data-index="{{index}}"
+          bindtap="toggleJudgment"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="zone-card">
+      <view class="zone-title">装备区</view>
+      <view class="rect-row">
+        <view
+          class="rect {{equipDisabled[index] ? 'rect-disabled' : ''}}"
+          wx:for="{{equipSlots}}"
+          wx:key="index"
+          data-index="{{index}}"
+          bindtap="toggleEquipDisabled"
+        >
+          {{equipDisabled[index] ? '废除' : item}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="hp-panel">
+    <view class="panel-block panel-left">
+      <view class="label">体力上限</view>
+      <view class="control-row compact-row">
+        <button class="op-btn small-btn" bindtap="decreaseHpMax">-</button>
+        <text class="value small-value">{{hpMax}}</text>
+        <button class="op-btn small-btn" bindtap="increaseHpMax">+</button>
+      </view>
+    </view>
+
+    <view class="panel-block panel-right">
+      <view class="label">当前体力</view>
+      <view class="control-row compact-row">
+        <button class="op-btn small-btn" bindtap="decreaseHp">-</button>
+        <text class="value small-value">{{hpCurrent}}</text>
+        <button class="op-btn small-btn" bindtap="increaseHp">+</button>
+      </view>
+
+      <view class="hp-gouyu-wrap">
+        <image
+          wx:for="{{hpSlots}}"
+          wx:key="index"
+          class="gouyu-img"
+          src="{{index < hpCurrent ? '/assets/icons/hp-red.png' : '/assets/icons/hp-black.png'}}"
+          mode="aspectFit"
+        />
+      </view>
+    </view>
+
+    <view class="panel-block panel-armor">
+      <view class="label">护甲</view>
+      <view class="control-row compact-row">
+        <button class="op-btn small-btn" bindtap="decreaseArmor">-</button>
+        <text class="value small-value">{{armor}}</text>
+        <button class="op-btn small-btn" bindtap="increaseArmor">+</button>
+      </view>
+    </view>
+  </view>
+</view>

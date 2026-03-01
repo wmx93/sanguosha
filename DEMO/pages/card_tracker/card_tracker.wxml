@@ -1,0 +1,38 @@
+<button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回">
+  <text class="back-icon">‹</text>
+</button>
+
+<view class="page">
+  <view class="header">
+    <view class="title">记牌器</view>
+    <button class="reset-btn" bindtap="resetAll">清空记录</button>
+  </view>
+
+  <scroll-view class="content" scroll-y="true">
+    <view class="section" wx:for="{{sections}}" wx:key="category" wx:for-item="sectionItem" wx:for-index="sectionIndex">
+      <view class="section-header" bindtap="toggleSection" data-category="{{sectionItem.category}}">
+        <view class="section-title">{{sectionItem.category}}</view>
+        <view class="section-arrow">{{collapsedSections[sectionItem.category] ? '展开 ▾' : '收起 ▴'}}</view>
+      </view>
+
+      <view wx:if="{{!collapsedSections[sectionItem.category]}}">
+        <view class="card-block" wx:for="{{sectionItem.items}}" wx:key="name" wx:for-item="cardItem" wx:for-index="cardIndex">
+          <view class="card-name">{{cardItem.name}}</view>
+          <view class="points-wrap">
+            <view
+              class="point-tag {{records[sectionItem.category + '_' + cardItem.name + '_' + cardIndex + '_' + pointIndex] ? 'used' : ''}}"
+              wx:for="{{cardItem.points}}"
+              wx:key="index"
+              wx:for-item="point"
+              wx:for-index="pointIndex"
+              data-key="{{sectionItem.category + '_' + cardItem.name + '_' + cardIndex + '_' + pointIndex}}"
+              bindtap="togglePoint"
+            >
+              {{point}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

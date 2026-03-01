@@ -8,7 +8,9 @@
     "pages/dianwei/dianwei",
     "pages/zhaoxiang/zhaoxiang",
     "pages/caojinyu/caojinyu",
-    "pages/shenjiangwei/shenjiangwei"
+    "pages/shenjiangwei/shenjiangwei",
+    "pages/card_tracker/card_tracker",
+    "pages/hp_tracker/hp_tracker"
   ],
   "window": {
     "navigationBarTextStyle": "black",
