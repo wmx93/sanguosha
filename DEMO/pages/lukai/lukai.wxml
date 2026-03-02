@@ -1,0 +1,44 @@
+<button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回">
+  <text class="back-icon">‹</text>
+</button>
+
+<view class="setting-switch-wrapper">
+  <view class="switch-container" style="position: relative; left: 0rpx; top: 103rpx">
+    <text class="switch-label">动图背景</text>
+    <switch checked="{{useGifBackground}}" bindchange="toggleGifBackground" color="#667eea" scale="0.8" />
+  </view>
+</view>
+
+<view class="page">
+  <view class="background-layer" wx:if="{{(useGifBackground && gifBackgroundImage) || (!useGifBackground && staticBackgroundImage)}}">
+    <image class="background-image" src="{{useGifBackground ? gifBackgroundImage : staticBackgroundImage}}" mode="aspectFill"></image>
+    <view class="background-overlay"></view>
+  </view>
+
+  <view class="content">
+    <view class="title" style="position: relative; left: 0rpx; top: 308rpx">陆凯</view>
+
+    <view class="card" style="position: relative; left: 0rpx; top: 334rpx">
+      <view class="card-title">花色重分配</view>
+      <view class="card-desc">每个位置绑定一条技能描述，切换花色会自动交换，保证四花色唯一。</view>
+
+      <view class="slot-list">
+        <view class="slot-item" wx:for="{{slots}}" wx:key="id">
+          <view class="slot-header">
+            <text class="slot-index">位置{{item.id}}</text>
+            <picker
+              mode="selector"
+              range="{{suitOptions}}"
+              value="{{suitOptions.indexOf(item.suit)}}"
+              data-index="{{index}}"
+              bindchange="onSuitChange"
+            >
+              <view class="suit-picker">{{item.suit}}</view>
+            </picker>
+          </view>
+          <view class="slot-skill">{{item.skillText}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -15,7 +15,10 @@ Page({
       { name: '神典韦', icon: '/assets/icons/dianwei.png', action: 'goDianwei' },
       { name: '赵襄', icon: '/assets/icons/zhaoxiang.png', action: 'goZhaoxiang' },
       { name: '曹金玉', icon: '/assets/icons/caojinyu.png', action: 'goCaoJinYu' },
-      { name: '神姜维', icon: '/assets/icons/shenjiangwei.png', action: 'goShenJiangWei' }
+      { name: '神姜维', icon: '/assets/icons/shenjiangwei.png', action: 'goShenJiangWei' },
+      { name: '郭缇萦', icon: '/assets/icons/guotiying.png', action: 'goGuoTiYing' },
+      { name: '张琪瑛', icon: '/assets/icons/zhangqiying.png', action: 'goZhangQiYing' },
+      { name: '陆凯', icon: '/assets/icons/lukai.png', action: 'goLuKai' }
     ]
   },
 
@@ -37,7 +40,13 @@ Page({
     神姜维: '/pages/shenjiangwei/shenjiangwei',
     姜维: '/pages/shenjiangwei/shenjiangwei',
     shenjiangwei: '/pages/shenjiangwei/shenjiangwei',
-    jiangwei: '/pages/shenjiangwei/shenjiangwei'
+    jiangwei: '/pages/shenjiangwei/shenjiangwei',
+    郭缇萦: '/pages/guotiying/guotiying',
+    guotiying: '/pages/guotiying/guotiying',
+    张琪瑛: '/pages/zhangqiying/zhangqiying',
+    zhangqiying: '/pages/zhangqiying/zhangqiying',
+    陆凯: '/pages/lukai/lukai',
+    lukai: '/pages/lukai/lukai'
   },
 
   onLoad() {
@@ -103,6 +112,9 @@ Page({
   goZhaoxiang() { wx.navigateTo({ url: '/pages/zhaoxiang/zhaoxiang' }) },
   goCaoJinYu() { wx.navigateTo({ url: '/pages/caojinyu/caojinyu' }) },
   goShenJiangWei() { wx.navigateTo({ url: '/pages/shenjiangwei/shenjiangwei' }) },
+  goGuoTiYing() { wx.navigateTo({ url: '/pages/guotiying/guotiying' }) },
+  goZhangQiYing() { wx.navigateTo({ url: '/pages/zhangqiying/zhangqiying' }) },
+  goLuKai() { wx.navigateTo({ url: '/pages/lukai/lukai' }) },
 
   goCardTracker() {
     wx.navigateTo({ url: '/pages/card_tracker/card_tracker' })

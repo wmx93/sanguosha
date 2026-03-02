@@ -1,0 +1,55 @@
+<button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回">
+  <text class="back-icon">‹</text>
+</button>
+
+<view class="setting-switch-wrapper">
+  <view class="switch-container" style="position: relative; left: 0rpx; top: 103rpx">
+    <text class="switch-label">动图背景</text>
+    <switch checked="{{useGifBackground}}" bindchange="toggleGifBackground" color="#667eea" scale="0.8" />
+  </view>
+</view>
+
+<view class="page">
+  <view class="background-layer" wx:if="{{(useGifBackground && gifBackgroundImage) || (!useGifBackground && staticBackgroundImage)}}">
+    <image class="background-image" src="{{useGifBackground ? gifBackgroundImage : staticBackgroundImage}}" mode="aspectFill"></image>
+    <view class="background-overlay"></view>
+  </view>
+
+  <view class="content">
+    <view class="title" style="position: relative; left: 0rpx; top: 245rpx">张琪瑛</view>
+
+    <view class="card" style="position: relative; left: 0rpx; top: 269rpx">
+      <view class="card-title">花色记录</view>
+      <view class="card-desc">点击下方花色按钮，将记录到记录框中。</view>
+
+      <view class="suit-list">
+        <button
+          class="suit-btn"
+          wx:for="{{suitOptions}}"
+          wx:key="*this"
+          data-suit="{{item}}"
+          bindtap="addSuitRecord"
+        >
+          {{item}}
+        </button>
+      </view>
+
+      <view class="record-header">
+        <text class="record-title">记录框</text>
+        <button class="clear-btn" size="mini" bindtap="clearRecords">清空</button>
+      </view>
+
+      <view class="record-box">
+        <view wx:if="{{records.length === 0}}" class="empty-tip">暂无记录</view>
+        <view wx:else class="record-list">
+          <view class="record-item" wx:for="{{records}}" wx:key="index">
+            {{index + 1}}. {{item}}
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{resultText}}" class="result-tip">{{resultText}}</view>
+      <view wx:if="{{nonResponsiveSuitText}}" class="result-tip">{{nonResponsiveSuitText}}</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,60 @@
+<button class="back-btn" plain type="default" size="mini" bindtap="goBack" aria-label="返回">
+  <text class="back-icon">‹</text>
+</button>
+
+<view class="setting-switch-wrapper">
+  <view class="switch-container">
+    <text class="switch-label">动图背景</text>
+    <switch checked="{{useGifBackground}}" bindchange="toggleGifBackground" color="#667eea" scale="0.8" />
+  </view>
+</view>
+
+<view class="page">
+  <view class="background-layer" wx:if="{{(useGifBackground && gifBackgroundImage) || (!useGifBackground && staticBackgroundImage)}}">
+    <image class="background-image" src="{{useGifBackground ? gifBackgroundImage : staticBackgroundImage}}" mode="aspectFill"></image>
+    <view class="background-overlay"></view>
+  </view>
+
+  <view class="content">
+    <view class="title" style="position: relative; left: 0rpx; top: 489rpx">郭缇萦</view>
+
+    <view class="card" style="position: relative; left: 0rpx; top: 535rpx">
+      <view class="card-title">记录花色与点数</view>
+
+      <view class="section-label">1. 选择花色</view>
+      <view class="suit-list">
+        <view
+          class="suit-item {{selectedSuit === item ? 'active' : ''}}"
+          wx:for="{{suitOptions}}"
+          wx:key="*this"
+          data-suit="{{item}}"
+          bindtap="selectSuit"
+        >
+          {{item}}
+        </view>
+      </view>
+
+      <view class="section-label">2. 输入点数</view>
+      <input style="height: 60rpx; display: block; box-sizing: border-box"
+        class="point-input"
+        type="text"
+        placeholder="例如：1、2（支持A,1-13,J,Q,K）"
+        value="{{pointInput}}"
+        bindinput="onPointInput"
+      />
+
+      <view class="action-row">
+        <button class="action-btn primary" bindtap="addCardRecord">添加记录</button>
+        <button class="action-btn" bindtap="clearCardRecords">清空记录</button>
+      </view>
+
+      <view class="section-label">已记录组合</view>
+      <view wx:if="{{displayedCardRanges.length === 0}}" class="empty-tip">暂无记录</view>
+      <view wx:else class="record-list">
+        <view class="record-item" wx:for="{{displayedCardRanges}}" wx:key="index">
+          {{item}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

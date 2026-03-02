@@ -10,7 +10,10 @@
     "pages/caojinyu/caojinyu",
     "pages/shenjiangwei/shenjiangwei",
     "pages/card_tracker/card_tracker",
-    "pages/hp_tracker/hp_tracker"
+    "pages/hp_tracker/hp_tracker",
+    "pages/guotiying/guotiying",
+    "pages/zhangqiying/zhangqiying",
+    "pages/lukai/lukai"
   ],
   "window": {
     "navigationBarTextStyle": "black",

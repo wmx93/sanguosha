@@ -1,0 +1,140 @@
+.back-btn {
+  position: fixed;
+  left: 24rpx;
+  top: 85rpx;
+  z-index: 10;
+}
+
+.back-icon {
+  font-size: 40rpx;
+}
+
+.setting-switch-wrapper {
+  position: fixed;
+  right: 24rpx;
+  top: 85rpx;
+  z-index: 10;
+}
+
+.switch-container {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: rgba(255, 255, 255, 0.28);
+  border: 1rpx solid rgba(255, 255, 255, 0.45);
+  border-radius: 999rpx;
+  padding: 8rpx 14rpx;
+}
+
+.switch-label {
+  color: #fff;
+  font-size: 22rpx;
+  text-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.5);
+}
+
+.page {
+  min-height: 100vh;
+  position: relative;
+}
+
+.background-layer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+}
+
+.background-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.content {
+  padding: 180rpx 32rpx 48rpx;
+}
+
+.title {
+  text-align: center;
+  font-size: 52rpx;
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 2rpx;
+  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.5);
+}
+
+.card {
+  margin-top: 36rpx;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 22rpx;
+  padding: 26rpx;
+  box-shadow: 0 12rpx 30rpx rgba(0, 0, 0, 0.16);
+}
+
+.card-title {
+  font-size: 34rpx;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.card-desc {
+  margin-top: 10rpx;
+  color: #374151;
+  font-size: 24rpx;
+  line-height: 1.6;
+}
+
+.slot-list {
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.slot-item {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1rpx solid #e5e7eb;
+  border-radius: 14rpx;
+  padding: 14rpx;
+}
+
+.slot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slot-index {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.suit-picker {
+  min-width: 90rpx;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #3730a3;
+  background: #eef2ff;
+  border: 1rpx solid #c7d2fe;
+  border-radius: 12rpx;
+  padding: 4rpx 14rpx;
+}
+
+.slot-skill {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #111827;
+  line-height: 1.6;
+}
